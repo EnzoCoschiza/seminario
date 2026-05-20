@@ -574,14 +574,14 @@
         </span>
         <span class="glos-text">CAMP<span>IX</span></span>
       </h1>
-      <p class="glos-subtitle">Diccionario interactivo del modelo entidad-relaci�n para el sistema de gesti�n de mantenimiento de maquinaria agropecuaria.</p>
+      <p class="glos-subtitle">Diccionario interactivo del modelo entidad-relación para el sistema de gestión de mantenimiento de maquinaria agropecuaria.</p>
       <div class="glos-meta" aria-label="Resumen del glosario">
         <div class="glos-stat"><strong id="stat-classes">-</strong><span>Clases</span></div>
         <div class="glos-stat"><strong id="stat-attrs">-</strong><span>Atributos</span></div>
         <div class="glos-stat"><strong>PK/FK</strong><span>Trazabilidad</span></div>
-        <div class="glos-stat"><strong>DER</strong><span>Modelo l�gico</span></div>
+        <div class="glos-stat"><strong>DER</strong><span>Modelo lógico</span></div>
       </div>
-      <div class="glos-actions" aria-label="Accesos r�pidos">
+      <div class="glos-actions" aria-label="Accesos rápidos">
         <a class="glos-action primary" href="index.html">Volver al documento principal</a>
       </div>
     </div>
@@ -589,9 +589,9 @@
 
   <div class="tool-panel">
     <div class="search-wrap">
-      <input class="search-bar" type="search" placeholder="Buscar clase, atributo o descripci�n..." id="search" />
+      <input class="search-bar" type="search" placeholder="Buscar clase, atributo o descripción..." id="search" />
     </div>
-    <div class="filter-row" id="filters" aria-label="Filtros de categor�a">
+    <div class="filter-row" id="filters" aria-label="Filtros de categoría">
       <button class="chip active" data-cat="all" type="button">Todas</button>
       <button class="chip" data-cat="core" type="button">Equipos</button>
       <button class="chip" data-cat="op" type="button">Operaciones</button>
@@ -612,15 +612,15 @@
     name: "equipo",
     cat: "core",
     badge: "Equipos",
-    intent: "Representa cada m�quina agr�cola registrada en el sistema (tractor, cosechadora, sembradora, etc.). Es la entidad central desde la que se originan solicitudes y tareas de mantenimiento.",
+    intent: "Representa cada máquina agrícola registrada en el sistema (tractor, cosechadora, sembradora, etc.). Es la entidad central desde la que se originan solicitudes y tareas de mantenimiento.",
     attrs: [
-      { name: "NumeroEquipo", type: "int", pk: true, desc: "Identificador �nico del equipo." },
+      { name: "NumeroEquipo", type: "int", pk: true, desc: "Identificador único del equipo." },
       { name: "TipoEquipoId", type: "int", fk: true, desc: "Tipo de equipo al que pertenece (FK a tipo_equipo)." },
-      { name: "SectorId", type: "int", fk: true, desc: "Sector o �rea productiva donde opera (FK a sector)." },
+      { name: "SectorId", type: "int", fk: true, desc: "Sector o área productiva donde opera (FK a sector)." },
       { name: "modelo", type: "string", desc: "Modelo comercial del equipo." },
       { name: "marca", type: "string", desc: "Fabricante o marca del equipo." },
-      { name: "numeroSerie", type: "string", desc: "N�mero de serie del fabricante para identificaci�n f�sica." },
-      { name: "horasUso", type: "float", desc: "Horas totales de operaci�n acumuladas; base para disparar mantenimientos." },
+      { name: "numeroSerie", type: "string", desc: "Número de serie del fabricante para identificación física." },
+      { name: "horasUso", type: "float", desc: "Horas totales de operación acumuladas; base para disparar mantenimientos." },
       { name: "fechaAlta", type: "date", desc: "Fecha en que el equipo fue incorporado al sistema." },
       { name: "estado", type: "string", desc: "Estado operativo actual: activo, en mantenimiento, dado de baja, etc." },
     ]
@@ -629,49 +629,49 @@
     name: "tipo_equipo",
     cat: "ref",
     badge: "Referencia",
-    intent: "Cat�logo de categor�as de m�quinas (tractores, cosechadoras, sembradoras�). Permite asociar planes de mantenimiento gen�ricos a toda una familia de equipos.",
+    intent: "Catálogo de categorías de máquinas (tractores, cosechadoras, sembradoras…). Permite asociar planes de mantenimiento genéricos a toda una familia de equipos.",
     attrs: [
       { name: "TipoEquipoId", type: "int", pk: true, desc: "Identificador del tipo." },
       { name: "nombre", type: "string", desc: "Nombre del tipo (p.ej. 'Tractor de ruedas')." },
-      { name: "descripcion", type: "string", desc: "Descripci�n breve del tipo de equipo." },
+      { name: "descripcion", type: "string", desc: "Descripción breve del tipo de equipo." },
     ]
   },
   {
     name: "sector",
     cat: "ref",
     badge: "Referencia",
-    intent: "Cat�logo de sectores o zonas de la explotaci�n agropecuaria (campo norte, taller, dep�sito�). Permite segmentar la flota por �rea operativa.",
+    intent: "Catálogo de sectores o zonas de la explotación agropecuaria (campo norte, taller, depósito…). Permite segmentar la flota por área operativa.",
     attrs: [
       { name: "SectorId", type: "int", pk: true, desc: "Identificador del sector." },
       { name: "nombre", type: "string", desc: "Nombre del sector." },
-      { name: "descripcion", type: "string", desc: "Descripci�n del sector." },
+      { name: "descripcion", type: "string", desc: "Descripción del sector." },
     ]
   },
   {
     name: "solicitud",
     cat: "op",
     badge: "Operaciones",
-    intent: "Registro de un pedido de intervenci�n sobre un equipo, generado por el operador ante una falla o necesidad detectada. Es la puerta de entrada al mantenimiento correctivo.",
+    intent: "Registro de un pedido de intervención sobre un equipo, generado por el operador ante una falla o necesidad detectada. Es la puerta de entrada al mantenimiento correctivo.",
     attrs: [
-      { name: "NumeroSolicitud", type: "int", pk: true, desc: "Identificador �nico de la solicitud." },
+      { name: "NumeroSolicitud", type: "int", pk: true, desc: "Identificador único de la solicitud." },
       { name: "NumeroEquipo", type: "int", fk: true, desc: "Equipo al que refiere la solicitud (FK a equipo)." },
       { name: "descripcion", type: "string", desc: "Detalle del problema o necesidad reportada." },
       { name: "fechaSolicitud", type: "date", desc: "Fecha en que se emite la solicitud." },
       { name: "estado", type: "string", desc: "Estado de la solicitud: pendiente, en proceso, resuelta, cancelada." },
-      { name: "prioridad", type: "string", desc: "Urgencia: baja, media, alta, cr�tica." },
+      { name: "prioridad", type: "string", desc: "Urgencia: baja, media, alta, crítica." },
     ]
   },
   {
     name: "plan_mantenimiento",
     cat: "op",
     badge: "Operaciones",
-    intent: "Define un programa de mantenimiento preventivo para un tipo de equipo. Establece el criterio de frecuencia (horas, d�as, campa�a) y el tipo de mantenimiento (preventivo / predictivo).",
+    intent: "Define un programa de mantenimiento preventivo para un tipo de equipo. Establece el criterio de frecuencia (horas, días, campaña) y el tipo de mantenimiento (preventivo / predictivo).",
     attrs: [
       { name: "NumeroPlan", type: "int", pk: true, desc: "Identificador del plan." },
       { name: "TipoEquipoId", type: "int", fk: true, desc: "Tipo de equipo al que aplica el plan (FK a tipo_equipo)." },
-      { name: "descripcion", type: "string", desc: "Descripci�n general del plan." },
+      { name: "descripcion", type: "string", desc: "Descripción general del plan." },
       { name: "criterioFrecuencia", type: "string", desc: "Base para disparar el plan: 'cada 250 hs', 'mensual', 'precosecha'." },
-      { name: "tipoMantenimiento", type: "string", desc: "Clasificaci�n: preventivo, predictivo." },
+      { name: "tipoMantenimiento", type: "string", desc: "Clasificación: preventivo, predictivo." },
       { name: "estado", type: "string", desc: "Estado del plan: activo, suspendido, archivado." },
     ]
   },
@@ -679,15 +679,15 @@
     name: "maestro_tarea",
     cat: "ref",
     badge: "Referencia",
-    intent: "Cat�logo centralizado de tareas de mantenimiento reutilizables (cambio de aceite, ajuste de correas, inspecci�n de filtros�). Se reutiliza en planes y en �rdenes de trabajo.",
+    intent: "Catálogo centralizado de tareas de mantenimiento reutilizables (cambio de aceite, ajuste de correas, inspección de filtros…). Se reutiliza en planes y en órdenes de trabajo.",
     attrs: [
-      { name: "CodigoTarea", type: "int", pk: true, desc: "Identificador �nico de la tarea." },
+      { name: "CodigoTarea", type: "int", pk: true, desc: "Identificador único de la tarea." },
       { name: "nombre", type: "string", desc: "Nombre corto de la tarea." },
-      { name: "descripcion", type: "string", desc: "Descripci�n detallada del procedimiento." },
-      { name: "categoria", type: "string", desc: "Agrupaci�n funcional: lubricaci�n, inspecci�n, ajuste, reemplazo�" },
+      { name: "descripcion", type: "string", desc: "Descripción detallada del procedimiento." },
+      { name: "categoria", type: "string", desc: "Agrupación funcional: lubricación, inspección, ajuste, reemplazo…" },
       { name: "tipoMantenimiento", type: "string", desc: "Tipo al que pertenece la tarea: preventivo, correctivo." },
       { name: "frecuenciaRecomendada", type: "string", desc: "Sugerencia de periodicidad (informativa)." },
-      { name: "requiereRepuesto", type: "boolean", desc: "Indica si la tarea consume alg�n repuesto." },
+      { name: "requiereRepuesto", type: "boolean", desc: "Indica si la tarea consume algún repuesto." },
       { name: "requierePrestadorExterno", type: "boolean", desc: "Indica si debe intervenir un taller externo." },
       { name: "estado", type: "string", desc: "Estado de la tarea: activa, obsoleta." },
     ]
@@ -696,31 +696,31 @@
     name: "detalle_plan_mantenimiento",
     cat: "op",
     badge: "Operaciones",
-    intent: "Tabla de intersecci�n que asigna tareas concretas a un plan de mantenimiento, indicando el tiempo estimado y observaciones particulares de esa combinaci�n.",
+    intent: "Tabla de intersección que asigna tareas concretas a un plan de mantenimiento, indicando el tiempo estimado y observaciones particulares de esa combinación.",
     attrs: [
       { name: "NumeroPlan", type: "int", pk: true, fk: true, desc: "Plan al que pertenece el detalle (FK a plan_mantenimiento)." },
       { name: "CodigoTarea", type: "int", pk: true, fk: true, desc: "Tarea incluida en el plan (FK a maestro_tarea)." },
-      { name: "observacion", type: "string", desc: "Notas espec�ficas para esta tarea dentro del plan." },
-      { name: "tiempoEstimado", type: "int", desc: "Tiempo estimado de ejecuci�n en minutos." },
+      { name: "observacion", type: "string", desc: "Notas específicas para esta tarea dentro del plan." },
+      { name: "tiempoEstimado", type: "int", desc: "Tiempo estimado de ejecución en minutos." },
     ]
   },
   {
     name: "tarea_mantenimiento",
     cat: "op",
     badge: "Operaciones",
-    intent: "Orden de trabajo de mantenimiento concreta (preventiva o correctiva) aplicada sobre un equipo. Agrupa los detalles de trabajo y consolida el costo total de la intervenci�n.",
+    intent: "Orden de trabajo de mantenimiento concreta (preventiva o correctiva) aplicada sobre un equipo. Agrupa los detalles de trabajo y consolida el costo total de la intervención.",
     attrs: [
-      { name: "NumeroMantenimiento", type: "int", pk: true, desc: "Identificador �nico de la orden." },
+      { name: "NumeroMantenimiento", type: "int", pk: true, desc: "Identificador único de la orden." },
       { name: "NumeroEquipo", type: "int", fk: true, desc: "Equipo intervenido (FK a equipo)." },
-      { name: "NumeroSolicitud", type: "int", fk: true, desc: "Solicitud que origin� el mantenimiento, si aplica (nullable)." },
+      { name: "NumeroSolicitud", type: "int", fk: true, desc: "Solicitud que originó el mantenimiento, si aplica (nullable)." },
       { name: "NumeroPlan", type: "int", fk: true, desc: "Plan de mantenimiento asociado, si aplica (nullable)." },
       { name: "NumeroPrestador", type: "int", fk: true, desc: "Prestador externo contratado, si aplica (nullable)." },
       { name: "tipoMantenimiento", type: "string", desc: "Preventivo o correctivo." },
-      { name: "fechaInicio", type: "date", desc: "Fecha de inicio de la intervenci�n." },
-      { name: "fechaFin", type: "date", desc: "Fecha de finalizaci�n de la intervenci�n." },
+      { name: "fechaInicio", type: "date", desc: "Fecha de inicio de la intervención." },
+      { name: "fechaFin", type: "date", desc: "Fecha de finalización de la intervención." },
       { name: "estado", type: "string", desc: "Estado de la orden: programada, en curso, finalizada, cancelada." },
       { name: "prioridad", type: "string", desc: "Urgencia de la orden." },
-      { name: "descripcion", type: "string", desc: "Resumen de la intervenci�n." },
+      { name: "descripcion", type: "string", desc: "Resumen de la intervención." },
       { name: "costoTotal", type: "float", desc: "Costo total consolidado de la orden (mano de obra + repuestos)." },
     ]
   },
@@ -728,15 +728,15 @@
     name: "detalle_trabajo",
     cat: "op",
     badge: "Operaciones",
-    intent: "Registra la ejecuci�n de una tarea espec�fica dentro de una orden de mantenimiento, incluyendo qui�n la realiz�, cu�ndo y cu�nto cost�.",
+    intent: "Registra la ejecución de una tarea específica dentro de una orden de mantenimiento, incluyendo quién la realizó, cuándo y cuánto costó.",
     attrs: [
       { name: "NumeroMantenimiento", type: "int", pk: true, fk: true, desc: "Orden de mantenimiento a la que pertenece (FK a tarea_mantenimiento)." },
       { name: "CodigoTarea", type: "int", pk: true, fk: true, desc: "Tarea ejecutada (FK a maestro_tarea)." },
-      { name: "LegajoPersonal", type: "int", fk: true, desc: "T�cnico asignado (FK a personal, nullable)." },
+      { name: "LegajoPersonal", type: "int", fk: true, desc: "Técnico asignado (FK a personal, nullable)." },
       { name: "fechaInicio", type: "date", desc: "Fecha de inicio de la tarea." },
       { name: "fechaFin", type: "date", desc: "Fecha de fin de la tarea." },
-      { name: "horaRealizada", type: "time", desc: "Hora de inicio de ejecuci�n." },
-      { name: "observacion", type: "string", desc: "Notas del t�cnico sobre la ejecuci�n." },
+      { name: "horaRealizada", type: "time", desc: "Hora de inicio de ejecución." },
+      { name: "observacion", type: "string", desc: "Notas del técnico sobre la ejecución." },
       { name: "costoParcial", type: "float", desc: "Costo de esta tarea (mano de obra)." },
     ]
   },
@@ -744,7 +744,7 @@
     name: "detalle_trabajo_repuesto",
     cat: "op",
     badge: "Operaciones",
-    intent: "Registra los repuestos utilizados en una tarea de trabajo concreta. Vincula cada �tem de repuesto consumido con la tarea y el costo unitario al momento del uso.",
+    intent: "Registra los repuestos utilizados en una tarea de trabajo concreta. Vincula cada ítem de repuesto consumido con la tarea y el costo unitario al momento del uso.",
     attrs: [
       { name: "NumeroMantenimiento", type: "int", pk: true, fk: true, desc: "Orden de mantenimiento (FK compuesta)." },
       { name: "CodigoTarea", type: "int", pk: true, fk: true, desc: "Tarea dentro de la orden (FK compuesta)." },
@@ -757,56 +757,56 @@
     name: "personal",
     cat: "ref",
     badge: "Referencia",
-    intent: "Representa a los t�cnicos e integrantes del equipo de mantenimiento propio. Se asocia a las tareas ejecutadas para registrar qui�n realiz� cada trabajo.",
+    intent: "Representa a los técnicos e integrantes del equipo de mantenimiento propio. Se asocia a las tareas ejecutadas para registrar quién realizó cada trabajo.",
     attrs: [
-      { name: "LegajoPersonal", type: "int", pk: true, desc: "N�mero de legajo del personal." },
+      { name: "LegajoPersonal", type: "int", pk: true, desc: "Número de legajo del personal." },
       { name: "dni", type: "int", desc: "Documento Nacional de Identidad." },
       { name: "nombre", type: "string", desc: "Nombre completo." },
       { name: "correo", type: "string", desc: "Email de contacto." },
-      { name: "telefono", type: "string", desc: "Tel�fono de contacto." },
-      { name: "especialidad", type: "string", desc: "�rea t�cnica de especializaci�n (hidr�ulica, motor, el�ctrica�)." },
+      { name: "telefono", type: "string", desc: "Teléfono de contacto." },
+      { name: "especialidad", type: "string", desc: "Área técnica de especialización (hidráulica, motor, eléctrica…)." },
     ]
   },
   {
     name: "prestador_servicio",
     cat: "ref",
     badge: "Referencia",
-    intent: "Taller o t�cnico externo contratado para intervenciones que requieren especializaci�n fuera del equipo propio. Tiene una calificaci�n para facilitar su selecci�n.",
+    intent: "Taller o técnico externo contratado para intervenciones que requieren especialización fuera del equipo propio. Tiene una calificación para facilitar su selección.",
     attrs: [
       { name: "NumeroPrestador", type: "int", pk: true, desc: "Identificador del prestador." },
       { name: "TipoPrestacionId", type: "int", fk: true, desc: "Tipo de servicio que ofrece (FK a tipo_prestacion)." },
-      { name: "nombre", type: "string", desc: "Nombre o raz�n social." },
-      { name: "especialidad", type: "string", desc: "Especialidad t�cnica." },
-      { name: "telefono", type: "string", desc: "Tel�fono de contacto." },
+      { name: "nombre", type: "string", desc: "Nombre o razón social." },
+      { name: "especialidad", type: "string", desc: "Especialidad técnica." },
+      { name: "telefono", type: "string", desc: "Teléfono de contacto." },
       { name: "correo", type: "string", desc: "Email de contacto." },
-      { name: "direccion", type: "string", desc: "Direcci�n f�sica del taller o prestador." },
-      { name: "calificacion", type: "float", desc: "Puntaje de desempe�o hist�rico (0�5) asignado por el usuario." },
+      { name: "direccion", type: "string", desc: "Dirección física del taller o prestador." },
+      { name: "calificacion", type: "float", desc: "Puntaje de desempeño histórico (0–5) asignado por el usuario." },
     ]
   },
   {
     name: "tipo_prestacion",
     cat: "ref",
     badge: "Referencia",
-    intent: "Cat�logo de clasificaciones del tipo de servicio que puede ofrecer un prestador externo (taller de motor, servicio hidr�ulico, electricidad, etc.).",
+    intent: "Catálogo de clasificaciones del tipo de servicio que puede ofrecer un prestador externo (taller de motor, servicio hidráulico, electricidad, etc.).",
     attrs: [
       { name: "TipoPrestacionId", type: "int", pk: true, desc: "Identificador del tipo." },
-      { name: "clasificacion", type: "string", desc: "Nombre de la clasificaci�n." },
-      { name: "descripcion", type: "string", desc: "Descripci�n del tipo de prestaci�n." },
+      { name: "clasificacion", type: "string", desc: "Nombre de la clasificación." },
+      { name: "descripcion", type: "string", desc: "Descripción del tipo de prestación." },
     ]
   },
   {
     name: "repuesto",
     cat: "sup",
     badge: "Suministros",
-    intent: "�tem de inventario disponible para tareas de mantenimiento. Tiene control de stock m�nimo para emitir alertas cuando el nivel baja del umbral requerido.",
+    intent: "Ítem de inventario disponible para tareas de mantenimiento. Tiene control de stock mínimo para emitir alertas cuando el nivel baja del umbral requerido.",
     attrs: [
-      { name: "CodigoRepuesto", type: "int", pk: true, desc: "Identificador �nico del repuesto." },
+      { name: "CodigoRepuesto", type: "int", pk: true, desc: "Identificador único del repuesto." },
       { name: "NumeroProveedor", type: "int", fk: true, desc: "Proveedor principal del repuesto (FK a proveedor)." },
-      { name: "nombre", type: "string", desc: "Denominaci�n del repuesto (filtro de aceite, correa, etc.)." },
+      { name: "nombre", type: "string", desc: "Denominación del repuesto (filtro de aceite, correa, etc.)." },
       { name: "costoUnitario", type: "float", desc: "Precio de referencia por unidad." },
-      { name: "stockMinimo", type: "int", desc: "Cantidad m�nima que debe mantenerse en stock." },
+      { name: "stockMinimo", type: "int", desc: "Cantidad mínima que debe mantenerse en stock." },
       { name: "stockActual", type: "int", desc: "Cantidad disponible en el momento de la consulta." },
-      { name: "numeroSerie", type: "string", desc: "N�mero de parte o serie del fabricante." },
+      { name: "numeroSerie", type: "string", desc: "Número de parte o serie del fabricante." },
     ]
   },
   {
@@ -816,10 +816,10 @@
     intent: "Empresa o persona que suministra repuestos al sistema. Permite rastrear el origen de cada compra y la marca que distribuye.",
     attrs: [
       { name: "NumeroProveedor", type: "int", pk: true, desc: "Identificador del proveedor." },
-      { name: "nombre", type: "string", desc: "Nombre o raz�n social." },
+      { name: "nombre", type: "string", desc: "Nombre o razón social." },
       { name: "correo", type: "string", desc: "Email de contacto." },
-      { name: "telefono", type: "string", desc: "Tel�fono de contacto." },
-      { name: "direccion", type: "string", desc: "Direcci�n f�sica." },
+      { name: "telefono", type: "string", desc: "Teléfono de contacto." },
+      { name: "direccion", type: "string", desc: "Dirección física." },
       { name: "marca", type: "string", desc: "Marca o marcas que comercializa." },
     ]
   },
@@ -831,7 +831,7 @@
     attrs: [
       { name: "NumeroCompra", type: "int", pk: true, desc: "Identificador de la compra." },
       { name: "NumeroProveedor", type: "int", fk: true, desc: "Proveedor al que se realiza la compra (FK a proveedor)." },
-      { name: "fechaCompra", type: "date", desc: "Fecha de emisi�n del pedido." },
+      { name: "fechaCompra", type: "date", desc: "Fecha de emisión del pedido." },
       { name: "costoTotal", type: "float", desc: "Monto total de la orden de compra." },
       { name: "estado", type: "string", desc: "Estado: pendiente, recibida, cancelada." },
     ]
@@ -840,7 +840,7 @@
     name: "detalle_compra",
     cat: "sup",
     badge: "Suministros",
-    intent: "L�nea de detalle de una orden de compra. Registra qu� repuesto se compr�, en qu� cantidad y a qu� precio unitario.",
+    intent: "Línea de detalle de una orden de compra. Registra qué repuesto se compró, en qué cantidad y a qué precio unitario.",
     attrs: [
       { name: "NumeroCompra", type: "int", pk: true, fk: true, desc: "Compra a la que pertenece (FK a compra)." },
       { name: "CodigoRepuesto", type: "int", pk: true, fk: true, desc: "Repuesto comprado (FK a repuesto)." },
@@ -870,7 +870,7 @@ function render(items) {
   summary.textContent = `${items.length} ${noun}`;
 
   if (!items.length) {
-    list.innerHTML = '<p class="empty">Sin resultados para la b�squeda o filtro seleccionado.</p>';
+    list.innerHTML = '<p class="empty">Sin resultados para la búsqueda o filtro seleccionado.</p>';
     return;
   }
 
@@ -887,7 +887,7 @@ function render(items) {
         <div class="intent-block">${escapeHtml(c.intent)}</div>
         <div class="attr-table-wrap">
           <table class="attr-table">
-            <thead><tr><th>Atributo</th><th>Tipo</th><th>Descripci�n</th></tr></thead>
+            <thead><tr><th>Atributo</th><th>Tipo</th><th>Descripción</th></tr></thead>
             <tbody>
               ${c.attrs.map(a => `<tr>
                 <td><span class="attr-name">${escapeHtml(a.name)}</span>${a.pk ? '<span class="pk-tag">PK</span>' : ''}${a.fk ? '<span class="fk-tag">FK</span>' : ''}</td>
