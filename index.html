@@ -103,6 +103,42 @@
   }
   .cover-meta span { display: flex; flex-direction: column; gap: 4px; }
   .cover-meta strong { color: var(--bg); font-weight: 700; font-size: .95rem; letter-spacing: 0; text-transform: none; }
+  .cover-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 28px;
+  }
+  .cover-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid rgba(196,184,154,.45);
+    border-radius: 999px;
+    background: rgba(253, 250, 244, .04);
+    color: var(--bg);
+    font-family: 'Raleway', sans-serif;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: transform .15s, background .15s, border-color .15s;
+  }
+  .cover-action:hover {
+    transform: translateY(-1px);
+    border-color: var(--accent2);
+    background: rgba(193,127,62,.12);
+  }
+  .cover-action.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .cover-action.primary:hover {
+    background: var(--accent2);
+    border-color: var(--accent2);
+  }
 
   /* LAYOUT PRINCIPAL */
   .main { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
@@ -500,6 +536,10 @@
       
       <span><label>Versión</label><strong>1.0</strong></span>
       <span><label>Fase</label><strong>Elaboración</strong></span>
+    </div>
+    <div class="cover-actions" aria-label="Accesos rápidos">
+      <a class="cover-action primary" href="#glosario">Glosario interno</a>
+      <a class="cover-action" href="der.html">Glosario DER</a>
     </div>
   </div>
 </header>

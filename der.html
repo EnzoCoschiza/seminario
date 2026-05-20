@@ -1,0 +1,930 @@
+﻿<h2 class="sr-only">Glosario interactivo del DER - Sistema de mantenimiento agropecuario</h2>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Code+Pro:wght@400;600&family=Raleway:wght@300;400;600;700;900&display=swap');
+
+  :root {
+    --bg: #f5f2eb;
+    --bg2: #ede9df;
+    --ink: #1a1610;
+    --ink2: #3d3828;
+    --accent: #8b4513;
+    --accent2: #c17f3e;
+    --accent3: #2c5f2e;
+    --rule: #c4b89a;
+    --card: #fdfaf4;
+    --shadow: 0 2px 16px rgba(60,40,10,0.10);
+  }
+
+  html,
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  body {
+    min-height: 100vh;
+    font-family: 'Libre Baskerville', Georgia, serif;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .glos-root {
+    box-sizing: border-box;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    color: var(--ink);
+    background: var(--bg);
+    font-family: 'Libre Baskerville', Georgia, serif;
+  }
+
+  .glos-root *,
+  .glos-root *::before,
+  .glos-root *::after { box-sizing: border-box; }
+
+  .glos-hero {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 64px 48px 56px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 calc(50% - 50vw) 32px;
+  }
+
+  .glos-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 39px,
+      rgba(255,255,255,0.04) 39px,
+      rgba(255,255,255,0.04) 40px
+    );
+    pointer-events: none;
+  }
+
+  .glos-hero-inner {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .glos-kicker {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .glos-kicker::after { content: ''; flex: 1; height: 1px; background: var(--accent2); opacity: .4; }
+
+  .glos-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    letter-spacing: -.02em;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .glos-icon {
+    width: 84px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+
+  .glos-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .glos-text {
+    display: inline-block;
+  }
+
+  .glos-title span { color: var(--accent2); }
+
+  .glos-subtitle {
+    font-size: 1.05rem;
+    color: #c4b89a;
+    font-style: italic;
+    margin-bottom: 36px;
+    line-height: 1.7;
+    max-width: 760px;
+  }
+
+  .glos-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #a09070;
+  }
+
+  .glos-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .glos-stat strong {
+    color: var(--bg);
+    font-weight: 700;
+    font-size: .95rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .glos-stat span {
+    color: #a09070;
+    font: 700 .66rem/1.25 'Raleway', Arial, sans-serif;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  .glos-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .glos-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid rgba(196,184,154,.45);
+    border-radius: 999px;
+    background: rgba(253, 250, 244, .04);
+    color: var(--bg);
+    font-family: 'Raleway', sans-serif;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: transform .15s, background .15s, border-color .15s;
+  }
+
+  .glos-action:hover {
+    transform: translateY(-1px);
+    border-color: var(--accent2);
+    background: rgba(193,127,62,.12);
+  }
+
+  .glos-action.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .glos-action.primary:hover {
+    background: var(--accent2);
+    border-color: var(--accent2);
+  }
+
+  .tool-panel {
+    display: grid;
+    grid-template-columns: minmax(230px, 1fr) auto;
+    gap: 14px;
+    align-items: start;
+    margin-bottom: 22px;
+  }
+
+  .search-wrap { position: relative; }
+
+  .search-wrap::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    width: 13px;
+    height: 13px;
+    border: 2px solid var(--rule);
+    border-radius: 50%;
+    transform: translateY(-58%);
+    pointer-events: none;
+  }
+
+  .search-wrap::after {
+    content: '';
+    position: absolute;
+    left: 27px;
+    top: 50%;
+    width: 7px;
+    height: 2px;
+    background: var(--rule);
+    transform: translateY(4px) rotate(45deg);
+    transform-origin: left center;
+    pointer-events: none;
+  }
+
+  .search-bar {
+    width: 100%;
+    min-height: 44px;
+    padding: 11px 16px 11px 42px;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    outline: none;
+    background: var(--card);
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    font: 600 .9rem/1.2 'Raleway', Arial, sans-serif;
+    transition: border-color .15s, box-shadow .15s, background .15s;
+  }
+
+  .search-bar:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(193, 127, 62, .18), var(--shadow);
+  }
+
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .chip {
+    min-height: 36px;
+    padding: 7px 14px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--ink2);
+    cursor: pointer;
+    font: 800 .68rem/1 'Raleway', Arial, sans-serif;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    transition: transform .15s, background .15s, color .15s, border-color .15s;
+  }
+
+  .chip:hover { transform: translateY(-1px); border-color: var(--accent); }
+  .chip.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+  .summary-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 0 14px;
+    color: var(--ink2);
+    font: italic .86rem/1.55 'Libre Baskerville', Georgia, serif;
+  }
+
+  .summary-line code {
+    color: var(--accent);
+    font: 700 .78rem/1 'Source Code Pro', monospace;
+  }
+
+  #list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .class-card {
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    background: var(--card);
+    box-shadow: var(--shadow);
+    transition: transform .16s, box-shadow .16s, border-color .16s;
+  }
+
+  .class-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(60,40,10,.16);
+    border-color: #b5a780;
+  }
+
+  .class-card.is-open { box-shadow: 0 6px 24px rgba(60,40,10,.16); }
+
+  .class-header {
+    display: grid;
+    grid-template-columns: 34px minmax(150px, .45fr) minmax(220px, 1fr) auto 24px;
+    gap: 12px;
+    align-items: center;
+    width: 100%;
+    padding: 16px 18px;
+    border: 0;
+    border-bottom: 1px solid transparent;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .class-card.is-open .class-header {
+    border-bottom-color: var(--rule);
+    background: rgba(237, 233, 223, .55);
+  }
+
+  .class-icon {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--bg);
+    font: 800 .72rem/1 'Source Code Pro', monospace;
+  }
+
+  .class-name {
+    color: var(--ink);
+    font: 800 1rem/1.2 'Raleway', Arial, sans-serif;
+    overflow-wrap: anywhere;
+  }
+
+  .class-intent {
+    color: var(--ink2);
+    font-size: .82rem;
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 92px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font: 800 .64rem/1 'Raleway', Arial, sans-serif;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .badge-core { background: #e8f4e9; color: #2c5f2e; }
+  .badge-op { background: #fdecea; color: #8b1a1a; }
+  .badge-sup { background: #fff3e0; color: #7a4400; }
+  .badge-ref { background: #e8f0fe; color: #1a3a8b; }
+
+  .chevron {
+    justify-self: end;
+    width: 22px;
+    height: 22px;
+    color: var(--accent);
+    transition: transform .2s;
+  }
+
+  .class-card.is-open .chevron { transform: rotate(180deg); }
+
+  .class-body { display: none; padding: 18px; }
+  .class-body.open { display: block; }
+
+  .intent-block {
+    margin-bottom: 16px;
+    padding: 13px 15px;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    background: var(--bg2);
+    color: var(--ink2);
+    font-size: .86rem;
+    line-height: 1.65;
+  }
+
+  .attr-table-wrap { overflow-x: auto; }
+
+  .attr-table {
+    width: 100%;
+    min-width: 680px;
+    border-collapse: collapse;
+    font-size: .84rem;
+  }
+
+  .attr-table th {
+    padding: 8px 10px 9px;
+    border-bottom: 1px solid var(--rule);
+    color: var(--accent);
+    font: 800 .68rem/1 'Raleway', Arial, sans-serif;
+    letter-spacing: .1em;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  .attr-table td {
+    padding: 10px;
+    border-bottom: 1px solid rgba(196,184,154,.72);
+    color: var(--ink);
+    line-height: 1.5;
+    vertical-align: top;
+  }
+
+  .attr-table tr:last-child td { border-bottom: 0; }
+  .attr-table tbody tr:hover td { background: rgba(237, 233, 223, .48); }
+
+  .attr-name,
+  .attr-type {
+    font-family: 'Source Code Pro', Consolas, monospace;
+    font-size: .78rem;
+  }
+
+  .attr-name { color: var(--ink); font-weight: 700; }
+  .attr-type { color: var(--accent); }
+  .attr-desc { color: var(--ink2); }
+
+  .pk-tag,
+  .fk-tag {
+    display: inline-flex;
+    margin-left: 6px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font: 800 .62rem/1 'Source Code Pro', monospace;
+    vertical-align: middle;
+  }
+
+  .pk-tag { background: #fff3e0; color: #7a4400; }
+  .fk-tag { background: #f3e5f5; color: #4a148c; }
+
+  .empty {
+    margin: 28px 0 0;
+    padding: 34px 20px;
+    border: 1px dashed var(--rule);
+    border-radius: 10px;
+    color: #7d725e;
+    background: rgba(253, 250, 244, .68);
+    text-align: center;
+    font-style: italic;
+  }
+
+  @media (max-width: 820px) {
+    .tool-panel { grid-template-columns: 1fr; }
+    .filter-row { justify-content: flex-start; }
+    .class-header { grid-template-columns: 32px minmax(0, 1fr) auto; }
+    .class-intent { grid-column: 2 / -1; }
+    .badge { justify-self: start; min-width: 0; }
+    .chevron { grid-column: 3; grid-row: 1; }
+  }
+
+  @media (max-width: 520px) {
+    .glos-root { padding-left: 12px; padding-right: 12px; padding-bottom: 64px; }
+    .glos-hero { padding: 34px 20px 30px; }
+    .glos-hero-inner { padding: 0; }
+    .glos-title { gap: 12px; flex-wrap: wrap; }
+    .glos-icon { width: 64px; height: 34px; }
+    .glos-subtitle { font-size: .96rem; margin-bottom: 28px; }
+    .summary-line { display: block; }
+    .class-header { padding: 14px; gap: 10px; }
+    .class-body { padding: 14px; }
+    .chip { flex: 1 1 auto; }
+  }
+</style>
+
+<div class="glos-root">
+  <header class="glos-hero">
+    <div class="glos-hero-inner">
+      <div class="glos-kicker">Glosario DER</div>
+      <h1 class="glos-title">
+        <span class="glos-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320" width="100%" height="100%" aria-hidden="true" focusable="false">
+            <defs>
+              <g id="cog">
+                <path d="M 183 65 L 197 65 L 202 82 L 178 82 Z" fill="#1B4322" />
+              </g>
+
+              <mask id="tractorMask">
+                <rect x="0" y="0" width="600" height="320" fill="white" />
+                <circle cx="165" cy="225" r="27" fill="black" />
+                <circle cx="245" cy="235" r="19" fill="black" />
+                <rect x="170" y="162" width="18" height="22" rx="2" fill="black" />
+              </mask>
+            </defs>
+
+            <path d="M 250 85 C 350 80, 450 110, 530 150 C 440 120, 350 115, 250 115 Z" fill="#F4C724" />
+            <path d="M 250 130 C 360 130, 470 150, 560 195 C 460 155, 370 150, 250 155 Z" fill="#74B727" />
+            <path d="M 250 180 C 370 180, 480 195, 590 240 C 470 210, 380 205, 250 210 Z" fill="#3D8629" />
+            <path d="M 30 265 C 165 245, 350 245, 575 265 C 400 260, 200 270, 30 275 Z" fill="#1B4322" />
+
+            <g id="gear">
+              <circle cx="190" cy="190" r="90" fill="none" stroke="#1B4322" stroke-width="4"
+                      stroke-dasharray="283 1000" transform="rotate(135 190 190)" stroke-linecap="butt" />
+
+              <circle cx="190" cy="190" r="104" fill="none" stroke="#1B4322" stroke-width="12"
+                      stroke-dasharray="327 1000" transform="rotate(135 190 190)" stroke-linecap="butt" />
+
+              <use href="#cog" transform="rotate(-135 190 190)" />
+              <use href="#cog" transform="rotate(-105 190 190)" />
+              <use href="#cog" transform="rotate(-75 190 190)" />
+              <use href="#cog" transform="rotate(-45 190 190)" />
+              <use href="#cog" transform="rotate(-15 190 190)" />
+              <use href="#cog" transform="rotate(15 190 190)" />
+              <use href="#cog" transform="rotate(45 190 190)" />
+            </g>
+
+            <g id="tractor">
+              <g mask="url(#tractorMask)" fill="#1B4322">
+                <rect x="155" y="150" width="45" height="6" rx="2" />
+                <rect x="165" y="156" width="30" height="84" />
+                <path d="M 195 185 L 245 185 L 250 200 L 250 240 L 195 240 Z" />
+                <rect x="230" y="140" width="6" height="45" />
+                <rect x="228" y="140" width="10" height="4" rx="1" />
+              </g>
+
+              <path d="M 165 203 A 22 22 0 1 0 165 247 A 22 22 0 1 0 165 203 Z M 165 211 A 14 14 0 1 1 165 239 A 14 14 0 1 1 165 211 Z" fill="#1B4322" fill-rule="evenodd" />
+              <circle cx="165" cy="225" r="6" fill="#1B4322" />
+
+              <path d="M 245 220 A 15 15 0 1 0 245 250 A 15 15 0 1 0 245 220 Z M 245 226 A 9 9 0 1 1 245 244 A 9 9 0 1 1 245 226 Z" fill="#1B4322" fill-rule="evenodd" />
+              <circle cx="245" cy="235" r="4" fill="#1B4322" />
+            </g>
+          </svg>
+        </span>
+        <span class="glos-text">CAMP<span>IX</span></span>
+      </h1>
+      <p class="glos-subtitle">Diccionario interactivo del modelo entidad-relación para el sistema de gestión de mantenimiento de maquinaria agropecuaria.</p>
+      <div class="glos-meta" aria-label="Resumen del glosario">
+        <div class="glos-stat"><strong id="stat-classes">-</strong><span>Clases</span></div>
+        <div class="glos-stat"><strong id="stat-attrs">-</strong><span>Atributos</span></div>
+        <div class="glos-stat"><strong>PK/FK</strong><span>Trazabilidad</span></div>
+        <div class="glos-stat"><strong>DER</strong><span>Modelo lógico</span></div>
+      </div>
+      <div class="glos-actions" aria-label="Accesos rápidos">
+        <a class="glos-action primary" href="index.html">Volver al documento principal</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="tool-panel">
+    <div class="search-wrap">
+      <input class="search-bar" type="search" placeholder="Buscar clase, atributo o descripción..." id="search" />
+    </div>
+    <div class="filter-row" id="filters" aria-label="Filtros de categoría">
+      <button class="chip active" data-cat="all" type="button">Todas</button>
+      <button class="chip" data-cat="core" type="button">Equipos</button>
+      <button class="chip" data-cat="op" type="button">Operaciones</button>
+      <button class="chip" data-cat="sup" type="button">Suministros</button>
+      <button class="chip" data-cat="ref" type="button">Referencia</button>
+    </div>
+  </div>
+
+  <div class="summary-line">
+    <span id="result-summary">Cargando glosario...</span>
+    <code>campix.der</code>
+  </div>
+  <div id="list"></div>
+</div>
+
+<script>const DATA = [
+  {
+    name: "equipo",
+    cat: "core",
+    badge: "Equipos",
+    intent: "Representa cada máquina agrícola registrada en el sistema (tractor, cosechadora, sembradora, etc.). Es la entidad central desde la que se originan solicitudes y tareas de mantenimiento.",
+    attrs: [
+      { name: "NumeroEquipo", type: "int", pk: true, desc: "Identificador único del equipo." },
+      { name: "TipoEquipoId", type: "int", fk: true, desc: "Tipo de equipo al que pertenece (FK a tipo_equipo)." },
+      { name: "SectorId", type: "int", fk: true, desc: "Sector o área productiva donde opera (FK a sector)." },
+      { name: "modelo", type: "string", desc: "Modelo comercial del equipo." },
+      { name: "marca", type: "string", desc: "Fabricante o marca del equipo." },
+      { name: "numeroSerie", type: "string", desc: "Número de serie del fabricante para identificación física." },
+      { name: "horasUso", type: "float", desc: "Horas totales de operación acumuladas; base para disparar mantenimientos." },
+      { name: "fechaAlta", type: "date", desc: "Fecha en que el equipo fue incorporado al sistema." },
+      { name: "estado", type: "string", desc: "Estado operativo actual: activo, en mantenimiento, dado de baja, etc." },
+    ]
+  },
+  {
+    name: "tipo_equipo",
+    cat: "ref",
+    badge: "Referencia",
+    intent: "Catálogo de categorías de máquinas (tractores, cosechadoras, sembradoras…). Permite asociar planes de mantenimiento genéricos a toda una familia de equipos.",
+    attrs: [
+      { name: "TipoEquipoId", type: "int", pk: true, desc: "Identificador del tipo." },
+      { name: "nombre", type: "string", desc: "Nombre del tipo (p.ej. 'Tractor de ruedas')." },
+      { name: "descripcion", type: "string", desc: "Descripción breve del tipo de equipo." },
+    ]
+  },
+  {
+    name: "sector",
+    cat: "ref",
+    badge: "Referencia",
+    intent: "Catálogo de sectores o zonas de la explotación agropecuaria (campo norte, taller, depósito…). Permite segmentar la flota por área operativa.",
+    attrs: [
+      { name: "SectorId", type: "int", pk: true, desc: "Identificador del sector." },
+      { name: "nombre", type: "string", desc: "Nombre del sector." },
+      { name: "descripcion", type: "string", desc: "Descripción del sector." },
+    ]
+  },
+  {
+    name: "solicitud",
+    cat: "op",
+    badge: "Operaciones",
+    intent: "Registro de un pedido de intervención sobre un equipo, generado por el operador ante una falla o necesidad detectada. Es la puerta de entrada al mantenimiento correctivo.",
+    attrs: [
+      { name: "NumeroSolicitud", type: "int", pk: true, desc: "Identificador único de la solicitud." },
+      { name: "NumeroEquipo", type: "int", fk: true, desc: "Equipo al que refiere la solicitud (FK a equipo)." },
+      { name: "descripcion", type: "string", desc: "Detalle del problema o necesidad reportada." },
+      { name: "fechaSolicitud", type: "date", desc: "Fecha en que se emite la solicitud." },
+      { name: "estado", type: "string", desc: "Estado de la solicitud: pendiente, en proceso, resuelta, cancelada." },
+      { name: "prioridad", type: "string", desc: "Urgencia: baja, media, alta, crítica." },
+    ]
+  },
+  {
+    name: "plan_mantenimiento",
+    cat: "op",
+    badge: "Operaciones",
+    intent: "Define un programa de mantenimiento preventivo para un tipo de equipo. Establece el criterio de frecuencia (horas, días, campaña) y el tipo de mantenimiento (preventivo / predictivo).",
+    attrs: [
+      { name: "NumeroPlan", type: "int", pk: true, desc: "Identificador del plan." },
+      { name: "TipoEquipoId", type: "int", fk: true, desc: "Tipo de equipo al que aplica el plan (FK a tipo_equipo)." },
+      { name: "descripcion", type: "string", desc: "Descripción general del plan." },
+      { name: "criterioFrecuencia", type: "string", desc: "Base para disparar el plan: 'cada 250 hs', 'mensual', 'precosecha'." },
+      { name: "tipoMantenimiento", type: "string", desc: "Clasificación: preventivo, predictivo." },
+      { name: "estado", type: "string", desc: "Estado del plan: activo, suspendido, archivado." },
+    ]
+  },
+  {
+    name: "maestro_tarea",
+    cat: "ref",
+    badge: "Referencia",
+    intent: "Catálogo centralizado de tareas de mantenimiento reutilizables (cambio de aceite, ajuste de correas, inspección de filtros…). Se reutiliza en planes y en órdenes de trabajo.",
+    attrs: [
+      { name: "CodigoTarea", type: "int", pk: true, desc: "Identificador único de la tarea." },
+      { name: "nombre", type: "string", desc: "Nombre corto de la tarea." },
+      { name: "descripcion", type: "string", desc: "Descripción detallada del procedimiento." },
+      { name: "categoria", type: "string", desc: "Agrupación funcional: lubricación, inspección, ajuste, reemplazo…" },
+      { name: "tipoMantenimiento", type: "string", desc: "Tipo al que pertenece la tarea: preventivo, correctivo." },
+      { name: "frecuenciaRecomendada", type: "string", desc: "Sugerencia de periodicidad (informativa)." },
+      { name: "requiereRepuesto", type: "boolean", desc: "Indica si la tarea consume algún repuesto." },
+      { name: "requierePrestadorExterno", type: "boolean", desc: "Indica si debe intervenir un taller externo." },
+      { name: "estado", type: "string", desc: "Estado de la tarea: activa, obsoleta." },
+    ]
+  },
+  {
+    name: "detalle_plan_mantenimiento",
+    cat: "op",
+    badge: "Operaciones",
+    intent: "Tabla de intersección que asigna tareas concretas a un plan de mantenimiento, indicando el tiempo estimado y observaciones particulares de esa combinación.",
+    attrs: [
+      { name: "NumeroPlan", type: "int", pk: true, fk: true, desc: "Plan al que pertenece el detalle (FK a plan_mantenimiento)." },
+      { name: "CodigoTarea", type: "int", pk: true, fk: true, desc: "Tarea incluida en el plan (FK a maestro_tarea)." },
+      { name: "observacion", type: "string", desc: "Notas específicas para esta tarea dentro del plan." },
+      { name: "tiempoEstimado", type: "int", desc: "Tiempo estimado de ejecución en minutos." },
+    ]
+  },
+  {
+    name: "tarea_mantenimiento",
+    cat: "op",
+    badge: "Operaciones",
+    intent: "Orden de trabajo de mantenimiento concreta (preventiva o correctiva) aplicada sobre un equipo. Agrupa los detalles de trabajo y consolida el costo total de la intervención.",
+    attrs: [
+      { name: "NumeroMantenimiento", type: "int", pk: true, desc: "Identificador único de la orden." },
+      { name: "NumeroEquipo", type: "int", fk: true, desc: "Equipo intervenido (FK a equipo)." },
+      { name: "NumeroSolicitud", type: "int", fk: true, desc: "Solicitud que originó el mantenimiento, si aplica (nullable)." },
+      { name: "NumeroPlan", type: "int", fk: true, desc: "Plan de mantenimiento asociado, si aplica (nullable)." },
+      { name: "NumeroPrestador", type: "int", fk: true, desc: "Prestador externo contratado, si aplica (nullable)." },
+      { name: "tipoMantenimiento", type: "string", desc: "Preventivo o correctivo." },
+      { name: "fechaInicio", type: "date", desc: "Fecha de inicio de la intervención." },
+      { name: "fechaFin", type: "date", desc: "Fecha de finalización de la intervención." },
+      { name: "estado", type: "string", desc: "Estado de la orden: programada, en curso, finalizada, cancelada." },
+      { name: "prioridad", type: "string", desc: "Urgencia de la orden." },
+      { name: "descripcion", type: "string", desc: "Resumen de la intervención." },
+      { name: "costoTotal", type: "float", desc: "Costo total consolidado de la orden (mano de obra + repuestos)." },
+    ]
+  },
+  {
+    name: "detalle_trabajo",
+    cat: "op",
+    badge: "Operaciones",
+    intent: "Registra la ejecución de una tarea específica dentro de una orden de mantenimiento, incluyendo quién la realizó, cuándo y cuánto costó.",
+    attrs: [
+      { name: "NumeroMantenimiento", type: "int", pk: true, fk: true, desc: "Orden de mantenimiento a la que pertenece (FK a tarea_mantenimiento)." },
+      { name: "CodigoTarea", type: "int", pk: true, fk: true, desc: "Tarea ejecutada (FK a maestro_tarea)." },
+      { name: "LegajoPersonal", type: "int", fk: true, desc: "Técnico asignado (FK a personal, nullable)." },
+      { name: "fechaInicio", type: "date", desc: "Fecha de inicio de la tarea." },
+      { name: "fechaFin", type: "date", desc: "Fecha de fin de la tarea." },
+      { name: "horaRealizada", type: "time", desc: "Hora de inicio de ejecución." },
+      { name: "observacion", type: "string", desc: "Notas del técnico sobre la ejecución." },
+      { name: "costoParcial", type: "float", desc: "Costo de esta tarea (mano de obra)." },
+    ]
+  },
+  {
+    name: "detalle_trabajo_repuesto",
+    cat: "op",
+    badge: "Operaciones",
+    intent: "Registra los repuestos utilizados en una tarea de trabajo concreta. Vincula cada ítem de repuesto consumido con la tarea y el costo unitario al momento del uso.",
+    attrs: [
+      { name: "NumeroMantenimiento", type: "int", pk: true, fk: true, desc: "Orden de mantenimiento (FK compuesta)." },
+      { name: "CodigoTarea", type: "int", pk: true, fk: true, desc: "Tarea dentro de la orden (FK compuesta)." },
+      { name: "CodigoRepuesto", type: "int", pk: true, fk: true, desc: "Repuesto utilizado (FK a repuesto)." },
+      { name: "cantidad", type: "int", desc: "Cantidad de unidades del repuesto usadas." },
+      { name: "costoUnitario", type: "float", desc: "Precio unitario del repuesto al momento del uso." },
+    ]
+  },
+  {
+    name: "personal",
+    cat: "ref",
+    badge: "Referencia",
+    intent: "Representa a los técnicos e integrantes del equipo de mantenimiento propio. Se asocia a las tareas ejecutadas para registrar quién realizó cada trabajo.",
+    attrs: [
+      { name: "LegajoPersonal", type: "int", pk: true, desc: "Número de legajo del personal." },
+      { name: "dni", type: "int", desc: "Documento Nacional de Identidad." },
+      { name: "nombre", type: "string", desc: "Nombre completo." },
+      { name: "correo", type: "string", desc: "Email de contacto." },
+      { name: "telefono", type: "string", desc: "Teléfono de contacto." },
+      { name: "especialidad", type: "string", desc: "Área técnica de especialización (hidráulica, motor, eléctrica…)." },
+    ]
+  },
+  {
+    name: "prestador_servicio",
+    cat: "ref",
+    badge: "Referencia",
+    intent: "Taller o técnico externo contratado para intervenciones que requieren especialización fuera del equipo propio. Tiene una calificación para facilitar su selección.",
+    attrs: [
+      { name: "NumeroPrestador", type: "int", pk: true, desc: "Identificador del prestador." },
+      { name: "TipoPrestacionId", type: "int", fk: true, desc: "Tipo de servicio que ofrece (FK a tipo_prestacion)." },
+      { name: "nombre", type: "string", desc: "Nombre o razón social." },
+      { name: "especialidad", type: "string", desc: "Especialidad técnica." },
+      { name: "telefono", type: "string", desc: "Teléfono de contacto." },
+      { name: "correo", type: "string", desc: "Email de contacto." },
+      { name: "direccion", type: "string", desc: "Dirección física del taller o prestador." },
+      { name: "calificacion", type: "float", desc: "Puntaje de desempeño histórico (0–5) asignado por el usuario." },
+    ]
+  },
+  {
+    name: "tipo_prestacion",
+    cat: "ref",
+    badge: "Referencia",
+    intent: "Catálogo de clasificaciones del tipo de servicio que puede ofrecer un prestador externo (taller de motor, servicio hidráulico, electricidad, etc.).",
+    attrs: [
+      { name: "TipoPrestacionId", type: "int", pk: true, desc: "Identificador del tipo." },
+      { name: "clasificacion", type: "string", desc: "Nombre de la clasificación." },
+      { name: "descripcion", type: "string", desc: "Descripción del tipo de prestación." },
+    ]
+  },
+  {
+    name: "repuesto",
+    cat: "sup",
+    badge: "Suministros",
+    intent: "Ítem de inventario disponible para tareas de mantenimiento. Tiene control de stock mínimo para emitir alertas cuando el nivel baja del umbral requerido.",
+    attrs: [
+      { name: "CodigoRepuesto", type: "int", pk: true, desc: "Identificador único del repuesto." },
+      { name: "NumeroProveedor", type: "int", fk: true, desc: "Proveedor principal del repuesto (FK a proveedor)." },
+      { name: "nombre", type: "string", desc: "Denominación del repuesto (filtro de aceite, correa, etc.)." },
+      { name: "costoUnitario", type: "float", desc: "Precio de referencia por unidad." },
+      { name: "stockMinimo", type: "int", desc: "Cantidad mínima que debe mantenerse en stock." },
+      { name: "stockActual", type: "int", desc: "Cantidad disponible en el momento de la consulta." },
+      { name: "numeroSerie", type: "string", desc: "Número de parte o serie del fabricante." },
+    ]
+  },
+  {
+    name: "proveedor",
+    cat: "sup",
+    badge: "Suministros",
+    intent: "Empresa o persona que suministra repuestos al sistema. Permite rastrear el origen de cada compra y la marca que distribuye.",
+    attrs: [
+      { name: "NumeroProveedor", type: "int", pk: true, desc: "Identificador del proveedor." },
+      { name: "nombre", type: "string", desc: "Nombre o razón social." },
+      { name: "correo", type: "string", desc: "Email de contacto." },
+      { name: "telefono", type: "string", desc: "Teléfono de contacto." },
+      { name: "direccion", type: "string", desc: "Dirección física." },
+      { name: "marca", type: "string", desc: "Marca o marcas que comercializa." },
+    ]
+  },
+  {
+    name: "compra",
+    cat: "sup",
+    badge: "Suministros",
+    intent: "Encabezado de una orden de compra de repuestos a un proveedor. Registra fecha, costo total y estado del pedido para trazabilidad del gasto en insumos.",
+    attrs: [
+      { name: "NumeroCompra", type: "int", pk: true, desc: "Identificador de la compra." },
+      { name: "NumeroProveedor", type: "int", fk: true, desc: "Proveedor al que se realiza la compra (FK a proveedor)." },
+      { name: "fechaCompra", type: "date", desc: "Fecha de emisión del pedido." },
+      { name: "costoTotal", type: "float", desc: "Monto total de la orden de compra." },
+      { name: "estado", type: "string", desc: "Estado: pendiente, recibida, cancelada." },
+    ]
+  },
+  {
+    name: "detalle_compra",
+    cat: "sup",
+    badge: "Suministros",
+    intent: "Línea de detalle de una orden de compra. Registra qué repuesto se compró, en qué cantidad y a qué precio unitario.",
+    attrs: [
+      { name: "NumeroCompra", type: "int", pk: true, fk: true, desc: "Compra a la que pertenece (FK a compra)." },
+      { name: "CodigoRepuesto", type: "int", pk: true, fk: true, desc: "Repuesto comprado (FK a repuesto)." },
+      { name: "cantidad", type: "int", desc: "Cantidad de unidades adquiridas." },
+      { name: "precioUnitario", type: "float", desc: "Precio unitario pactado en la compra." },
+    ]
+  },
+];
+
+const catLabel = { core: "badge-core", op: "badge-op", sup: "badge-sup", ref: "badge-ref" };
+const catCode = { core: "EQ", op: "OP", sup: "SU", ref: "RF" };
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+}
+
+function updateStats() {
+  const attrs = DATA.reduce((total, item) => total + item.attrs.length, 0);
+  document.getElementById('stat-classes').textContent = DATA.length;
+  document.getElementById('stat-attrs').textContent = attrs;
+}
+
+function render(items) {
+  const list = document.getElementById('list');
+  const summary = document.getElementById('result-summary');
+  const noun = items.length === 1 ? 'clase encontrada' : 'clases encontradas';
+  summary.textContent = `${items.length} ${noun}`;
+
+  if (!items.length) {
+    list.innerHTML = '<p class="empty">Sin resultados para la búsqueda o filtro seleccionado.</p>';
+    return;
+  }
+
+  list.innerHTML = items.map((c, i) => `
+    <article class="class-card" data-i="${i}">
+      <button class="class-header" type="button" onclick="toggle(${i})" aria-expanded="false" aria-controls="body-${i}">
+        <span class="class-icon" aria-hidden="true">${catCode[c.cat]}</span>
+        <span class="class-name">${escapeHtml(c.name)}</span>
+        <span class="class-intent">${escapeHtml(c.intent)}</span>
+        <span class="badge ${catLabel[c.cat]}">${escapeHtml(c.badge)}</span>
+        <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.7 9.3 12 14.6l5.3-5.3 1.4 1.4L12 17.4l-6.7-6.7 1.4-1.4Z" fill="currentColor"/></svg>
+      </button>
+      <div class="class-body" id="body-${i}">
+        <div class="intent-block">${escapeHtml(c.intent)}</div>
+        <div class="attr-table-wrap">
+          <table class="attr-table">
+            <thead><tr><th>Atributo</th><th>Tipo</th><th>Descripción</th></tr></thead>
+            <tbody>
+              ${c.attrs.map(a => `<tr>
+                <td><span class="attr-name">${escapeHtml(a.name)}</span>${a.pk ? '<span class="pk-tag">PK</span>' : ''}${a.fk ? '<span class="fk-tag">FK</span>' : ''}</td>
+                <td><span class="attr-type">${escapeHtml(a.type)}</span></td>
+                <td class="attr-desc">${escapeHtml(a.desc)}</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </article>
+  `).join('');
+}
+
+function toggle(i) {
+  const body = document.getElementById('body-' + i);
+  const card = body.closest('.class-card');
+  const header = card.querySelector('.class-header');
+  const open = body.classList.toggle('open');
+  card.classList.toggle('is-open', open);
+  header.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+
+let activeCat = 'all';
+function filter() {
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  return DATA.filter(c => {
+    const catOk = activeCat === 'all' || c.cat === activeCat;
+    const qOk = !q || c.name.toLowerCase().includes(q) || c.intent.toLowerCase().includes(q) || c.attrs.some(a => a.name.toLowerCase().includes(q) || a.type.toLowerCase().includes(q) || a.desc.toLowerCase().includes(q));
+    return catOk && qOk;
+  });
+}
+
+function rerender() { render(filter()); }
+
+document.getElementById('search').addEventListener('input', rerender);
+document.getElementById('filters').addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  activeCat = chip.dataset.cat;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  rerender();
+});
+
+updateStats();
+render(DATA);
+</script>
