@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMPIX – Casos de Uso</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Code+Pro:wght@400;600&family=Raleway:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2eb;
+    --bg2: #ede9df;
+    --ink: #1a1610;
+    --ink2: #3d3828;
+    --accent: #8b4513;
+    --accent2: #c17f3e;
+    --accent3: #2c5f2e;
+    --rule: #c4b89a;
+    --card: #fdfaf4;
+    --badge-prev: #e8f4e9;
+    --badge-corr: #fdecea;
+    --badge-text-prev: #2c5f2e;
+    --badge-text-corr: #8b1a1a;
+    --shadow: 0 2px 16px rgba(60,40,10,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Libre Baskerville', Georgia, serif;
+    min-height: 100vh;
+  }
+
+  /* PORTADA */
+  .cover {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 64px 48px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 39px,
+      rgba(255,255,255,0.04) 39px,
+      rgba(255,255,255,0.04) 40px
+    );
+    pointer-events: none;
+  }
+  .cover-inner { position: relative; max-width: 900px; margin: 0 auto; }
+  .cover-tag {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .cover-tag::after { content: ''; flex: 1; height: 1px; background: var(--accent2); opacity: .4; }
+  .cover h1 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    letter-spacing: -.02em;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .cover h1 span { color: var(--accent2); }
+  .cover-subtitle {
+    font-size: 1.05rem;
+    color: #c4b89a;
+    font-style: italic;
+    margin-bottom: 36px;
+  }
+  .cover-meta {
+    display: flex; flex-wrap: wrap; gap: 32px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #a09070;
+  }
+  .cover-meta span { display: flex; flex-direction: column; gap: 4px; }
+  .cover-meta strong { color: var(--bg); font-weight: 700; font-size: .95rem; letter-spacing: 0; text-transform: none; }
+
+  /* LAYOUT PRINCIPAL */
+  .main { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* SECCIÓN DE ACTORES */
+  .section-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: .7rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-left: 3px solid var(--accent);
+    padding-left: 12px;
+    margin-bottom: 20px;
+    margin-top: 48px;
+  }
+
+  .actors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+  .actor-card {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+    display: flex; align-items: flex-start; gap: 14px;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .actor-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(60,40,10,.16); }
+  .actor-icon {
+    width: 36px; height: 36px;
+    background: var(--ink);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .actor-icon svg { width: 18px; height: 18px; fill: var(--bg); }
+  .actor-name { font-family: 'Raleway', sans-serif; font-weight: 700; font-size: .9rem; margin-bottom: 4px; }
+  .actor-desc { font-size: .78rem; color: var(--ink2); line-height: 1.45; }
+
+  /* DIAGRAMA UML SIMPLIFICADO */
+  .uml-container {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 32px;
+    margin-bottom: 8px;
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  .uml-container svg { display: block; margin: 0 auto; max-width: 100%; }
+
+  /* GRILLA DE CASOS DE USO */
+  .cu-list { display: flex; flex-direction: column; gap: 24px; }
+
+  .cu-card {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: box-shadow .2s;
+  }
+  .cu-card:hover { box-shadow: 0 6px 28px rgba(60,40,10,.16); }
+
+  .cu-header {
+    display: flex; align-items: center; gap: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--rule);
+    cursor: pointer;
+    user-select: none;
+  }
+  .cu-id {
+    font-family: 'Source Code Pro', monospace;
+    font-size: .75rem;
+    font-weight: 600;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 3px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .cu-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    flex: 1;
+  }
+  .cu-badge {
+    font-family: 'Raleway', sans-serif;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+  .badge-prev { background: var(--badge-prev); color: var(--badge-text-prev); }
+  .badge-corr { background: var(--badge-corr); color: var(--badge-text-corr); }
+  .badge-gestion { background: #e8f0fe; color: #1a3a8b; }
+  .badge-compra { background: #fff3e0; color: #7a4400; }
+
+  .cu-toggle {
+    font-size: 1.2rem;
+    color: var(--accent);
+    transition: transform .2s;
+    flex-shrink: 0;
+  }
+  .cu-card.open .cu-toggle { transform: rotate(180deg); }
+
+  .cu-body {
+    display: none;
+    padding: 0 24px 24px;
+  }
+  .cu-card.open .cu-body { display: block; }
+
+  .cu-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: .88rem;
+  }
+  .cu-table tr { border-bottom: 1px solid var(--rule); }
+  .cu-table tr:last-child { border-bottom: none; }
+  .cu-table td {
+    padding: 10px 12px;
+    vertical-align: top;
+    line-height: 1.55;
+  }
+  .cu-table td:first-child {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: .78rem;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--accent);
+    white-space: nowrap;
+    width: 160px;
+    padding-right: 20px;
+  }
+
+  .flow-list { padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .flow-list li {
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .flow-num {
+    font-family: 'Source Code Pro', monospace;
+    font-size: .75rem;
+    font-weight: 600;
+    background: var(--accent);
+    color: white;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .flow-num.alt { background: var(--accent2); }
+  .flow-num.exc { background: #8b1a1a; }
+
+  .sub-label {
+    font-family: 'Raleway', sans-serif;
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--ink2);
+    margin: 12px 0 6px;
+  }
+
+  /* ÍNDICE */
+  .index-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+  }
+  .index-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    font-size: .84rem;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+  }
+  .index-item:hover { background: var(--bg2); border-color: var(--accent); }
+  .index-item .idx-id {
+    font-family: 'Source Code Pro', monospace;
+    font-size: .72rem;
+    color: var(--accent);
+    font-weight: 600;
+    min-width: 52px;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 32px;
+    font-family: 'Source Code Pro', monospace;
+    font-size: .75rem;
+    color: var(--rule);
+    border-top: 1px solid var(--rule);
+    margin-top: 48px;
+  }
+
+  @media (max-width: 600px) {
+    .cover { padding: 40px 24px; }
+    .cu-table td:first-child { width: 110px; }
+    .uml-container { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<header class="cover">
+  <div class="cover-inner">
+    <div class="cover-tag">Seminario</div>
+    <h1>CAMP<span>IX</span></h1>
+    <p class="cover-subtitle">Sistema de Gestión de Mantenimiento de Maquinaria Agropecuaria</p>
+    <div class="cover-meta">
+      <span><label>Documento</label><strong>Especificación de Casos de Uso</strong></span>
+      <!-- <span><label>Metodología</label><strong></strong></span> -->
+      <span><label>Versión</label><strong>1.0</strong></span>
+      <span><label>Fase</label><strong>Elaboración</strong></span>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- ACTORES -->
+  <div class="section-title">Actores del Sistema</div>
+  <div class="actors-grid">
+    <div class="actor-card">
+      <div class="actor-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+      </div>
+      <div>
+        <div class="actor-name">Operario / Técnico</div>
+        <div class="actor-desc">Registra solicitudes, ejecuta tareas de mantenimiento y registra el trabajo realizado.</div>
+      </div>
+    </div>
+    <div class="actor-card">
+      <div class="actor-icon">
+        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      </div>
+      <div>
+        <div class="actor-name">Jefe de Taller / Supervisor</div>
+        <div class="actor-desc">Gestiona planes de mantenimiento, asigna tareas y aprueba compras de repuestos.</div>
+      </div>
+    </div>
+    <div class="actor-card">
+      <div class="actor-icon">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+      </div>
+      <div>
+        <div class="actor-name">Administrador</div>
+        <div class="actor-desc">Gestiona equipos, sectores, proveedores, repuestos y configuración del sistema.</div>
+      </div>
+    </div>
+    <div class="actor-card">
+      <div class="actor-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      </div>
+      <div>
+        <div class="actor-name">Prestador Externo</div>
+        <div class="actor-desc">Taller o técnico externo que recibe y ejecuta órdenes de trabajo asignadas.</div>
+      </div>
+    </div>
+    <div class="actor-card">
+      <div class="actor-icon">
+        <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+      </div>
+      <div>
+        <div class="actor-name">Proveedor</div>
+        <div class="actor-desc">Actor externo que suministra repuestos e insumos al sistema de inventario.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIAGRAMA UML -->
+  <div class="section-title">Diagrama de Casos de Uso — Vista General</div>
+  <div class="uml-container">
+    <svg viewBox="0 0 860 560" xmlns="http://www.w3.org/2000/svg" font-family="'Libre Baskerville', Georgia, serif">
+      <!-- Sistema boundary -->
+      <rect x="160" y="40" width="540" height="500" rx="8" fill="none" stroke="#3d3828" stroke-width="1.5" stroke-dasharray="6,4"/>
+      <text x="430" y="28" text-anchor="middle" font-family="'Raleway',sans-serif" font-weight="700" font-size="13" fill="#1a1610" letter-spacing="1">SISTEMA CAMPIX</text>
+
+      <!-- ===== ACTORES IZQUIERDA ===== -->
+      <!-- Operario -->
+      <g transform="translate(70,120)">
+        <circle cx="0" cy="0" r="14" fill="none" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="0" y1="14" x2="0" y2="44" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="-18" y1="26" x2="18" y2="26" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="0" y1="44" x2="-14" y2="62" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="0" y1="44" x2="14" y2="62" stroke="#1a1610" stroke-width="1.5"/>
+        <text x="0" y="80" text-anchor="middle" font-size="11" fill="#1a1610" font-weight="700">Operario /</text>
+        <text x="0" y="94" text-anchor="middle" font-size="11" fill="#1a1610" font-weight="700">Técnico</text>
+      </g>
+      <!-- Jefe -->
+      <g transform="translate(70,290)">
+        <circle cx="0" cy="0" r="14" fill="none" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="0" y1="14" x2="0" y2="44" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="-18" y1="26" x2="18" y2="26" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="0" y1="44" x2="-14" y2="62" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="0" y1="44" x2="14" y2="62" stroke="#1a1610" stroke-width="1.5"/>
+        <text x="0" y="80" text-anchor="middle" font-size="11" fill="#1a1610" font-weight="700">Jefe de</text>
+        <text x="0" y="94" text-anchor="middle" font-size="11" fill="#1a1610" font-weight="700">Taller</text>
+      </g>
+      <!-- Admin -->
+      <g transform="translate(70,460)">
+        <circle cx="0" cy="0" r="14" fill="none" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="0" y1="14" x2="0" y2="44" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="-18" y1="26" x2="18" y2="26" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="0" y1="44" x2="-14" y2="62" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="0" y1="44" x2="14" y2="62" stroke="#1a1610" stroke-width="1.5"/>
+        <text x="0" y="80" text-anchor="middle" font-size="11" fill="#1a1610" font-weight="700">Adminis-</text>
+        <text x="0" y="94" text-anchor="middle" font-size="11" fill="#1a1610" font-weight="700">trador</text>
+      </g>
+
+      <!-- ===== ACTORES DERECHA ===== -->
+      <!-- Prestador -->
+      <g transform="translate(800,200)">
+        <circle cx="0" cy="0" r="14" fill="none" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="0" y1="14" x2="0" y2="44" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="-18" y1="26" x2="18" y2="26" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="0" y1="44" x2="-14" y2="62" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="0" y1="44" x2="14" y2="62" stroke="#1a1610" stroke-width="1.5"/>
+        <text x="0" y="80" text-anchor="middle" font-size="11" fill="#1a1610" font-weight="700">Prestador</text>
+        <text x="0" y="94" text-anchor="middle" font-size="11" fill="#1a1610" font-weight="700">Externo</text>
+      </g>
+      <!-- Proveedor -->
+      <g transform="translate(800,390)">
+        <circle cx="0" cy="0" r="14" fill="none" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="0" y1="14" x2="0" y2="44" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="-18" y1="26" x2="18" y2="26" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="0" y1="44" x2="-14" y2="62" stroke="#1a1610" stroke-width="1.5"/>
+        <line x1="0" y1="44" x2="14" y2="62" stroke="#1a1610" stroke-width="1.5"/>
+        <text x="0" y="80" text-anchor="middle" font-size="11" fill="#1a1610" font-weight="700">Proveedor</text>
+      </g>
+
+      <!-- ===== CASOS DE USO ===== -->
+      <!-- Fila 1 -->
+      <ellipse cx="310" cy="100" rx="100" ry="22" fill="#fdfaf4" stroke="#8b4513" stroke-width="1.4"/>
+      <text x="310" y="104" text-anchor="middle" font-size="11" fill="#1a1610">Registrar Solicitud</text>
+
+      <ellipse cx="560" cy="100" rx="110" ry="22" fill="#fdfaf4" stroke="#8b4513" stroke-width="1.4"/>
+      <text x="560" y="104" text-anchor="middle" font-size="11" fill="#1a1610">Gestionar Equipos</text>
+
+      <!-- Fila 2 -->
+      <ellipse cx="310" cy="180" rx="110" ry="22" fill="#fdfaf4" stroke="#8b4513" stroke-width="1.4"/>
+      <text x="310" y="184" text-anchor="middle" font-size="11" fill="#1a1610">Registrar Tarea Mant.</text>
+
+      <ellipse cx="560" cy="180" rx="120" ry="22" fill="#fdfaf4" stroke="#8b4513" stroke-width="1.4"/>
+      <text x="560" y="184" text-anchor="middle" font-size="11" fill="#1a1610">Gestionar Plan Mant.</text>
+
+      <!-- Fila 3 -->
+      <ellipse cx="310" cy="265" rx="110" ry="22" fill="#fdfaf4" stroke="#2c5f2e" stroke-width="1.4"/>
+      <text x="310" y="269" text-anchor="middle" font-size="11" fill="#1a1610">Registrar Det. Trabajo</text>
+
+      <ellipse cx="560" cy="265" rx="115" ry="22" fill="#fdfaf4" stroke="#2c5f2e" stroke-width="1.4"/>
+      <text x="560" y="269" text-anchor="middle" font-size="11" fill="#1a1610">Asignar Prestador Ext.</text>
+
+      <!-- Fila 4 -->
+      <ellipse cx="310" cy="350" rx="115" ry="22" fill="#fdfaf4" stroke="#2c5f2e" stroke-width="1.4"/>
+      <text x="310" y="354" text-anchor="middle" font-size="11" fill="#1a1610">Gestionar Repuestos</text>
+
+      <ellipse cx="560" cy="350" rx="110" ry="22" fill="#fdfaf4" stroke="#c17f3e" stroke-width="1.4"/>
+      <text x="560" y="354" text-anchor="middle" font-size="11" fill="#1a1610">Registrar Compra</text>
+
+      <!-- Fila 5 -->
+      <ellipse cx="310" cy="435" rx="115" ry="22" fill="#fdfaf4" stroke="#1a3a8b" stroke-width="1.4"/>
+      <text x="310" y="439" text-anchor="middle" font-size="11" fill="#1a1610">Gestionar Proveedores</text>
+
+      <ellipse cx="560" cy="435" rx="120" ry="22" fill="#fdfaf4" stroke="#1a3a8b" stroke-width="1.4"/>
+      <text x="560" y="439" text-anchor="middle" font-size="11" fill="#1a1610">Generar Reportes / KPIs</text>
+
+      <!-- ===== ASOCIACIONES ===== -->
+      <!-- Operario (70,120) -->
+      <line x1="88" y1="120" x2="198" y2="100" stroke="#3d3828" stroke-width="1"/>
+      <line x1="88" y1="120" x2="198" y2="180" stroke="#3d3828" stroke-width="1"/>
+      <line x1="88" y1="120" x2="193" y2="265" stroke="#3d3828" stroke-width="1"/>
+
+      <!-- Jefe (70,290) -->
+      <line x1="88" y1="290" x2="193" y2="265" stroke="#3d3828" stroke-width="1"/>
+      <line x1="88" y1="290" x2="193" y2="350" stroke="#3d3828" stroke-width="1"/>
+      <line x1="88" y1="290" x2="440" y2="180" stroke="#3d3828" stroke-width="1"/>
+      <line x1="88" y1="290" x2="438" y2="265" stroke="#3d3828" stroke-width="1"/>
+
+      <!-- Admin (70,460) -->
+      <line x1="88" y1="460" x2="193" y2="435" stroke="#3d3828" stroke-width="1"/>
+      <line x1="88" y1="460" x2="448" y2="100" stroke="#3d3828" stroke-width="1"/>
+      <line x1="88" y1="460" x2="438" y2="350" stroke="#3d3828" stroke-width="1"/>
+      <line x1="88" y1="460" x2="438" y2="435" stroke="#3d3828" stroke-width="1"/>
+
+      <!-- Prestador (800,200) -->
+      <line x1="783" y1="200" x2="682" y2="265" stroke="#3d3828" stroke-width="1"/>
+
+      <!-- Proveedor (800,390) -->
+      <line x1="783" y1="390" x2="672" y2="350" stroke="#3d3828" stroke-width="1"/>
+
+      <!-- Leyenda -->
+      <rect x="168" y="505" width="12" height="2" fill="#8b4513"/>
+      <text x="186" y="512" font-size="10" fill="#3d3828">Correctivo</text>
+      <rect x="250" y="505" width="12" height="2" fill="#2c5f2e"/>
+      <text x="268" y="512" font-size="10" fill="#3d3828">Preventivo</text>
+      <rect x="336" y="505" width="12" height="2" fill="#c17f3e"/>
+      <text x="354" y="512" font-size="10" fill="#3d3828">Compras</text>
+      <rect x="408" y="505" width="12" height="2" fill="#1a3a8b"/>
+      <text x="426" y="512" font-size="10" fill="#3d3828">Gestión / Reportes</text>
+    </svg>
+  </div>
+
+  <!-- ÍNDICE RÁPIDO -->
+  <div class="section-title">Índice de Casos de Uso</div>
+  <div class="index-grid" id="index"></div>
+
+  <!-- CASOS DE USO DETALLADOS -->
+  <div class="section-title">Especificación Detallada</div>
+  <div class="cu-list" id="cu-list"></div>
+
+</main>
+
+<footer>
+  CAMPIX · Especificación de Casos de Uso v1.0 · Elaborado con metodología RUP
+</footer>
+
+<script>
+const casos = [
+  {
+    id: "CU-01",
+    nombre: "Registrar Solicitud de Mantenimiento",
+    tipo: "Correctivo",
+    actores: "Operario / Técnico",
+    precondicion: "El equipo existe y está registrado en el sistema. El operario está autenticado.",
+    postcondicion: "Se genera una solicitud en estado «Pendiente» asociada al equipo.",
+    descripcion: "Permite registrar una solicitud de intervención cuando se detecta una falla o anomalía en un equipo agropecuario.",
+    flujo: [
+      "El operario accede al módulo de Solicitudes.",
+      "Selecciona el equipo afectado (por sector o tipo de equipo).",
+      "Ingresa la descripción del problema o requerimiento.",
+      "Indica la prioridad (Alta / Media / Baja) y la fecha de la solicitud.",
+      "El sistema valida los datos ingresados.",
+      "El sistema registra la solicitud con estado «Pendiente» y genera un número de solicitud único.",
+      "El sistema notifica al Jefe de Taller sobre la nueva solicitud."
+    ],
+    alternativo: [
+      "5a. Si el equipo seleccionado no existe, el sistema muestra un mensaje de error y solicita corregir la selección.",
+      "5b. Si la descripción está vacía, el sistema solicita completar el campo obligatorio."
+    ],
+    excepcion: [
+      "E1. Error de conectividad: el sistema almacena la solicitud en modo offline y sincroniza al restaurar la conexión."
+    ],
+    entidades: "SOLICITUD, EQUIPO"
+  },
+  {
+    id: "CU-02",
+    nombre: "Registrar Tarea de Mantenimiento",
+    tipo: "Correctivo",
+    actores: "Jefe de Taller, Operario / Técnico",
+    precondicion: "Existe al menos una Solicitud en estado «Aprobada» o se genera desde un Plan de Mantenimiento.",
+    postcondicion: "Se crea una Tarea de Mantenimiento con estado «En Proceso» o «Pendiente».",
+    descripcion: "Genera una orden de trabajo (tarea) a partir de una solicitud aprobada o de la planificación preventiva, asignando equipo, tipo de mantenimiento y recursos.",
+    flujo: [
+      "El Jefe de Taller accede al módulo de Tareas de Mantenimiento.",
+      "Selecciona origen: desde Solicitud o desde Plan de Mantenimiento.",
+      "El sistema carga automáticamente el equipo y la descripción asociada.",
+      "El Jefe define el tipo de mantenimiento (Preventivo / Correctivo) y la prioridad.",
+      "Establece las fechas de inicio y fin estimadas.",
+      "Selecciona el Prestador de Servicio (interno o externo) si corresponde.",
+      "El sistema calcula el costo estimado según tareas del plan y repuestos.",
+      "El Jefe confirma y el sistema registra la tarea con estado «Pendiente»."
+    ],
+    alternativo: [
+      "6a. Si no hay prestadores disponibles, el sistema muestra un aviso; el campo queda vacío.",
+      "7a. Si no hay repuestos en stock, el sistema sugiere generar una compra (CU-07)."
+    ],
+    excepcion: [
+      "E1. Si el equipo está de baja, el sistema impide crear la tarea e informa al usuario."
+    ],
+    entidades: "TAREA_MANTENIMIENTO, SOLICITUD, PLAN_MANTENIMIENTO, PRESTADOR_SERVICIO, EQUIPO"
+  },
+  {
+    id: "CU-03",
+    nombre: "Registrar Detalle de Trabajo",
+    tipo: "Correctivo",
+    actores: "Operario / Técnico, Jefe de Taller",
+    precondicion: "Existe una Tarea de Mantenimiento en estado «En Proceso».",
+    postcondicion: "Se registran las actividades ejecutadas, el personal actuante y los repuestos utilizados. El stock de repuestos se actualiza.",
+    descripcion: "Permite cargar el detalle de ejecución de una tarea: qué actividades se realizaron, quién las realizó, qué repuestos se consumieron y los costos parciales.",
+    flujo: [
+      "El operario accede a la tarea asignada y selecciona «Registrar Trabajo».",
+      "Selecciona las tareas del Maestro de Tareas que se ejecutarán.",
+      "Asigna el personal responsable de cada sub-tarea.",
+      "Registra fecha de inicio, fecha de fin y hora realizada.",
+      "Agrega los repuestos utilizados con cantidad y costo unitario.",
+      "El sistema descuenta automáticamente el stock de los repuestos consumidos.",
+      "El sistema calcula el costo parcial de cada sub-tarea.",
+      "El operario ingresa observaciones adicionales si corresponde.",
+      "Confirma el registro; el sistema actualiza el costo total de la tarea."
+    ],
+    alternativo: [
+      "5a. Si el stock de un repuesto es insuficiente, el sistema advierte al operario y sugiere generar una compra.",
+      "9a. Si el stock cae por debajo del mínimo, el sistema genera una alerta automática."
+    ],
+    excepcion: [],
+    entidades: "DETALLE_TRABAJO, DETALLE_TRABAJO_REPUESTO, MAESTRO_TAREA, PERSONAL, REPUESTO"
+  },
+  {
+    id: "CU-04",
+    nombre: "Gestionar Plan de Mantenimiento Preventivo",
+    tipo: "Preventivo",
+    actores: "Jefe de Taller",
+    precondicion: "Existen tipos de equipos registrados en el sistema. El usuario tiene perfil de Jefe de Taller o superior.",
+    postcondicion: "El plan queda activo y el sistema programa automáticamente las próximas tareas según el criterio de frecuencia.",
+    descripcion: "Permite definir, modificar y activar planes de mantenimiento preventivo asociados a un tipo de equipo, especificando las tareas a ejecutar y su frecuencia.",
+    flujo: [
+      "El Jefe de Taller accede al módulo de Planes de Mantenimiento.",
+      "Crea un nuevo plan o selecciona uno existente para modificar.",
+      "Asocia el plan a un Tipo de Equipo.",
+      "Define el criterio de frecuencia: por horas de uso o por período temporal.",
+      "Agrega tareas desde el Maestro de Tareas al detalle del plan.",
+      "Para cada tarea indica observaciones específicas y tiempo estimado.",
+      "Activa el plan y define el estado (Activo / Suspendido).",
+      "El sistema calcula las próximas fechas de ejecución para cada equipo del tipo indicado."
+    ],
+    alternativo: [
+      "2a. Si selecciona un plan existente, los campos se cargan con los datos actuales para edición.",
+      "7a. Si el plan ya tiene tareas ejecutadas, solo puede suspenderse, no eliminarse (integridad del historial)."
+    ],
+    excepcion: [
+      "E1. Si no hay tareas en el Maestro de Tareas, el sistema advierte que debe completarse primero el catálogo."
+    ],
+    entidades: "PLAN_MANTENIMIENTO, DETALLE_PLAN_MANTENIMIENTO, MAESTRO_TAREA, TIPO_EQUIPO"
+  },
+  {
+    id: "CU-05",
+    nombre: "Asignar Prestador de Servicio Externo",
+    tipo: "Preventivo",
+    actores: "Jefe de Taller",
+    precondicion: "Existe una Tarea de Mantenimiento que requiere servicio externo. Hay prestadores registrados.",
+    postcondicion: "La tarea queda asociada a un prestador externo con estado «Asignada».",
+    descripcion: "Permite seleccionar y asignar un prestador externo (taller o técnico) a una tarea de mantenimiento, considerando su especialidad, calificación y disponibilidad.",
+    flujo: [
+      "El Jefe de Taller accede a la tarea sin prestador asignado.",
+      "Selecciona la opción «Asignar Prestador Externo».",
+      "El sistema muestra la lista de prestadores filtrada por especialidad y tipo de prestación.",
+      "El Jefe revisa la calificación y el historial de trabajos de cada prestador.",
+      "Selecciona el prestador adecuado.",
+      "El sistema registra la asociación y actualiza el estado de la tarea.",
+      "Se emite una notificación al prestador con los detalles de la intervención."
+    ],
+    alternativo: [
+      "3a. Si no hay prestadores con la especialidad requerida, el sistema sugiere registrar uno nuevo (CU-09).",
+      "6a. El Jefe puede reasignar el prestador mientras la tarea no esté finalizada."
+    ],
+    excepcion: [],
+    entidades: "PRESTADOR_SERVICIO, TIPO_PRESTACION, TAREA_MANTENIMIENTO"
+  },
+  {
+    id: "CU-06",
+    nombre: "Gestionar Repuestos e Inventario",
+    tipo: "Gestión",
+    actores: "Administrador, Jefe de Taller",
+    precondicion: "El usuario tiene perfil de Administrador o Jefe de Taller.",
+    postcondicion: "El catálogo de repuestos está actualizado con stock vigente y proveedores asociados.",
+    descripcion: "Permite registrar, modificar y consultar el inventario de repuestos, controlando el stock mínimo y generando alertas cuando se requiere reposición.",
+    flujo: [
+      "El usuario accede al módulo de Repuestos.",
+      "Selecciona la operación: Registrar nuevo repuesto, Modificar o Consultar stock.",
+      "Si registra: ingresa nombre, costo unitario, stock mínimo, stock actual, número de serie (opcional) y proveedor.",
+      "Si modifica: actualiza los datos editables del repuesto.",
+      "Si consulta: el sistema muestra el listado con indicador de alerta para repuestos bajo stock mínimo.",
+      "El sistema guarda los cambios y actualiza el catálogo."
+    ],
+    alternativo: [
+      "2a. Si consulta, puede filtrar por nombre, proveedor o categoría.",
+      "5a. Los repuestos con stock por debajo del mínimo se destacan visualmente con alerta."
+    ],
+    excepcion: [
+      "E1. No se permite eliminar repuestos asociados a tareas históricas (solo se pueden inactivar)."
+    ],
+    entidades: "REPUESTO, PROVEEDOR"
+  },
+  {
+    id: "CU-07",
+    nombre: "Registrar Compra de Repuestos",
+    tipo: "Compras",
+    actores: "Administrador, Jefe de Taller",
+    precondicion: "Existe al menos un repuesto con stock insuficiente o existe una necesidad de reposición. El proveedor está registrado.",
+    postcondicion: "Se registra la compra, se actualiza el stock de los repuestos adquiridos y se registra el costo.",
+    descripcion: "Permite registrar la adquisición de repuestos a un proveedor, actualizando automáticamente el inventario y registrando el costo por unidad.",
+    flujo: [
+      "El usuario accede al módulo de Compras y crea una nueva compra.",
+      "Selecciona el proveedor de la lista registrada.",
+      "Agrega los repuestos a comprar con cantidad y precio unitario.",
+      "El sistema calcula el costo total de la compra.",
+      "El usuario confirma la compra.",
+      "El sistema registra la compra con estado «Pendiente» o «Completada».",
+      "Al confirmar como completada, el sistema actualiza el stock actual de cada repuesto."
+    ],
+    alternativo: [
+      "2a. Si el proveedor no está registrado, el sistema permite registrarlo en el acto (CU-08).",
+      "6a. Una compra pendiente puede cancelarse mientras no tenga repuestos recibidos."
+    ],
+    excepcion: [
+      "E1. Si se ingresa un precio unitario negativo o cero, el sistema solicita corrección."
+    ],
+    entidades: "COMPRA, DETALLE_COMPRA, REPUESTO, PROVEEDOR"
+  },
+  {
+    id: "CU-08",
+    nombre: "Gestionar Proveedores",
+    tipo: "Gestión",
+    actores: "Administrador",
+    precondicion: "El usuario tiene perfil de Administrador.",
+    postcondicion: "El proveedor queda registrado o actualizado en el sistema.",
+    descripcion: "Permite el ABM (alta, baja, modificación) de proveedores de repuestos, registrando datos de contacto y la marca que representan.",
+    flujo: [
+      "El Administrador accede al módulo de Proveedores.",
+      "Selecciona la operación: Alta, Modificación o Consulta.",
+      "Ingresa o edita los datos: nombre, correo, teléfono, dirección y marca.",
+      "El sistema valida que el correo y teléfono tengan formato correcto.",
+      "El sistema guarda los cambios y actualiza el listado de proveedores."
+    ],
+    alternativo: [
+      "2a. Para baja lógica: el proveedor no se elimina si tiene compras registradas; se marca como inactivo."
+    ],
+    excepcion: [
+      "E1. Correo con formato inválido: el sistema muestra mensaje de validación."
+    ],
+    entidades: "PROVEEDOR"
+  },
+  {
+    id: "CU-09",
+    nombre: "Gestionar Equipos",
+    tipo: "Gestión",
+    actores: "Administrador",
+    precondicion: "Existen tipos de equipo y sectores registrados.",
+    postcondicion: "El equipo queda dado de alta, modificado o dado de baja en el sistema.",
+    descripcion: "Permite el ABM de equipos agropecuarios (tractores, cosechadoras, sembradoras, etc.), incluyendo datos técnicos y ubicación por sector.",
+    flujo: [
+      "El Administrador accede al módulo de Equipos.",
+      "Selecciona la operación: Alta, Modificación, Consulta o Baja.",
+      "Ingresa los datos: tipo de equipo, sector, modelo, marca, número de serie, horas de uso y fecha de alta.",
+      "El sistema verifica que el número de serie no esté duplicado.",
+      "El sistema registra el equipo con estado «Activo»."
+    ],
+    alternativo: [
+      "4a. Si el número de serie ya existe, el sistema advierte e impide el alta.",
+      "4b. Para baja: el equipo se marca como inactivo; no se elimina si tiene historial de mantenimiento."
+    ],
+    excepcion: [],
+    entidades: "EQUIPO, TIPO_EQUIPO, SECTOR"
+  },
+  {
+    id: "CU-10",
+    nombre: "Generar Reportes y KPIs",
+    tipo: "Gestión",
+    actores: "Administrador, Jefe de Taller",
+    precondicion: "Existen tareas de mantenimiento registradas con datos suficientes para el análisis.",
+    postcondicion: "Se genera un reporte con los indicadores solicitados, exportable en formato PDF o Excel.",
+    descripcion: "Permite generar informes gerenciales y operativos: disponibilidad de flota, costo de mantenimiento por equipo, fallas frecuentes, rendimiento de prestadores y evolución por temporada.",
+    flujo: [
+      "El usuario accede al módulo de Reportes.",
+      "Selecciona el tipo de reporte: Costo por equipo, Disponibilidad de flota, Fallas frecuentes, Rendimiento de prestadores o Planificación por temporada.",
+      "Define el rango de fechas y los filtros opcionales (sector, tipo de equipo, tipo de mantenimiento).",
+      "El sistema procesa los datos y genera el reporte con gráficos y tablas.",
+      "El usuario puede exportar el reporte en PDF o Excel."
+    ],
+    alternativo: [
+      "4a. Si no hay datos en el período seleccionado, el sistema informa «Sin resultados para el período indicado»."
+    ],
+    excepcion: [],
+    entidades: "TAREA_MANTENIMIENTO, EQUIPO, REPUESTO, PRESTADOR_SERVICIO, COMPRA"
+  }
+];
+
+const badgeClass = {
+  "Correctivo": "badge-corr",
+  "Preventivo": "badge-prev",
+  "Gestión": "badge-gestion",
+  "Compras": "badge-compra"
+};
+
+// Índice
+const indexEl = document.getElementById('index');
+casos.forEach(c => {
+  const div = document.createElement('div');
+  div.className = 'index-item';
+  div.innerHTML = `<span class="idx-id">${c.id}</span><span>${c.nombre}</span>`;
+  div.onclick = () => {
+    const card = document.getElementById('card-' + c.id);
+    card.classList.add('open');
+    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  indexEl.appendChild(div);
+});
+
+// Tarjetas detalladas
+const listEl = document.getElementById('cu-list');
+casos.forEach(c => {
+  const card = document.createElement('div');
+  card.className = 'cu-card';
+  card.id = 'card-' + c.id;
+
+  const flujoItems = c.flujo.map((f, i) =>
+    `<li><span class="flow-num">${i+1}</span><span>${f}</span></li>`
+  ).join('');
+
+  const altItems = c.alternativo.length
+    ? `<div class="sub-label">Flujos Alternativos</div><ul class="flow-list">${c.alternativo.map(a => `<li><span class="flow-num alt">A</span><span>${a}</span></li>`).join('')}</ul>`
+    : '';
+
+  const excItems = c.excepcion.length
+    ? `<div class="sub-label">Excepciones</div><ul class="flow-list">${c.excepcion.map(e => `<li><span class="flow-num exc">E</span><span>${e}</span></li>`).join('')}</ul>`
+    : '';
+
+  card.innerHTML = `
+    <div class="cu-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="cu-id">${c.id}</span>
+      <span class="cu-title">${c.nombre}</span>
+      <span class="cu-badge ${badgeClass[c.tipo]}">${c.tipo}</span>
+      <span class="cu-toggle">▾</span>
+    </div>
+    <div class="cu-body">
+      <table class="cu-table">
+        <tr><td>Actores</td><td>${c.actores}</td></tr>
+        <tr><td>Descripción</td><td>${c.descripcion}</td></tr>
+        <tr><td>Precondición</td><td>${c.precondicion}</td></tr>
+        <tr><td>Postcondición</td><td>${c.postcondicion}</td></tr>
+        <tr><td>Flujo Principal</td><td>
+          <ul class="flow-list">${flujoItems}</ul>
+          ${altItems}
+          ${excItems}
+        </td></tr>
+        <tr><td>Entidades</td><td><code style="font-family:'Source Code Pro',monospace;font-size:.8rem;color:var(--accent)">${c.entidades}</code></td></tr>
+      </table>
+    </div>
+  `;
+  listEl.appendChild(card);
+});
+</script>
+</body>
+</html>
