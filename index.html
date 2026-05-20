@@ -303,11 +303,120 @@
     margin-top: 48px;
   }
 
-  @media (max-width: 600px) {
+  /* GLOSARIO */
+  .gloss-intro {
+    font-size: .9rem;
+    color: var(--ink2);
+    font-style: italic;
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+  .gloss-search-wrap {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .gloss-search {
+    width: 100%;
+    padding: 10px 16px 10px 40px;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    background: var(--card);
+    font-family: 'Raleway', sans-serif;
+    font-size: .88rem;
+    color: var(--ink);
+    outline: none;
+    box-shadow: var(--shadow);
+    transition: border-color .15s;
+  }
+  .gloss-search:focus { border-color: var(--accent); }
+  .gloss-search-icon {
+    position: absolute;
+    left: 12px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--rule);
+    font-size: 1rem;
+    pointer-events: none;
+  }
+  .gloss-cats {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 20px;
+  }
+  .gloss-cat-btn {
+    font-family: 'Raleway', sans-serif;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--rule);
+    background: var(--card);
+    color: var(--ink2);
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .gloss-cat-btn.active, .gloss-cat-btn:hover {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .gloss-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .gloss-card {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .gloss-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(60,40,10,.13); }
+  .gloss-term {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: .92rem;
+    margin-bottom: 2px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .gloss-cat-pill {
+    font-size: .64rem;
+    font-family: 'Source Code Pro', monospace;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .pill-entidad { background: #e8f4e9; color: #2c5f2e; }
+  .pill-concepto { background: #e8f0fe; color: #1a3a8b; }
+  .pill-proceso { background: #fdecea; color: #8b1a1a; }
+  .pill-actor { background: #fff3e0; color: #7a4400; }
+  .pill-tecnico { background: #f3e5f5; color: #4a148c; }
+  .gloss-def {
+    font-size: .82rem;
+    color: var(--ink2);
+    line-height: 1.55;
+    margin-top: 6px;
+  }
+  .gloss-ref {
+    font-family: 'Source Code Pro', monospace;
+    font-size: .72rem;
+    color: var(--accent);
+    margin-top: 6px;
+  }
+  .gloss-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 32px;
+    color: var(--rule);
+    font-style: italic;
+  }
     .cover { padding: 40px 24px; }
     .cu-table td:first-child { width: 110px; }
     .uml-container { padding: 16px; }
-  }
+
 </style>
 </head>
 <body>
@@ -315,12 +424,12 @@
 <!-- PORTADA -->
 <header class="cover">
   <div class="cover-inner">
-    <div class="cover-tag">Seminario</div>
+    <div class="cover-tag">Seminario de Título Intermedio · Ingeniería en Sistemas de Información</div>
     <h1>CAMP<span>IX</span></h1>
     <p class="cover-subtitle">Sistema de Gestión de Mantenimiento de Maquinaria Agropecuaria</p>
     <div class="cover-meta">
       <span><label>Documento</label><strong>Especificación de Casos de Uso</strong></span>
-      <!-- <span><label>Metodología</label><strong></strong></span> -->
+      <span><label>Metodología</label><strong>RUP — Proceso Unificado</strong></span>
       <span><label>Versión</label><strong>1.0</strong></span>
       <span><label>Fase</label><strong>Elaboración</strong></span>
     </div>
@@ -521,6 +630,13 @@
   <div class="cu-list" id="cu-list"></div>
 
 </main>
+
+<!-- GLOSARIO -->
+<div class="main" style="padding-top:0">
+  <div class="section-title" id="glosario">Glosario de Términos</div>
+  <p class="gloss-intro">Definición de los términos, entidades y conceptos clave utilizados en el sistema CAMPIX y en este documento de casos de uso.</p>
+  <div id="gloss-container"></div>
+</div>
 
 <footer>
   CAMPIX · Especificación de Casos de Uso v1.0 · Elaborado con metodología RUP
@@ -841,6 +957,121 @@ casos.forEach(c => {
   `;
   listEl.appendChild(card);
 });
+// ════════════════════════════════════════
+// GLOSARIO
+// ════════════════════════════════════════
+const glosario = [
+  // ACTORES
+  { term: "Operario / Técnico", cat: "actor", def: "Personal interno que opera la maquinaria o ejecuta tareas de mantenimiento de campo. Es el actor que detecta fallas y registra solicitudes.", ref: "CU-01, CU-02, CU-03" },
+  { term: "Jefe de Taller", cat: "actor", def: "Supervisor responsable de planificar, asignar y controlar todas las tareas de mantenimiento. Hereda los permisos del Operario y agrega la gestión de planes y prestadores.", ref: "CU-02 a CU-07, CU-10" },
+  { term: "Administrador", cat: "actor", def: "Usuario con máximo nivel de acceso. Hereda los permisos del Jefe de Taller. Gestiona la configuración del sistema: equipos, proveedores y reportes.", ref: "CU-06 a CU-10" },
+  { term: "Prestador Externo", cat: "actor", def: "Taller o técnico especializado ajeno a la organización, contratado para ejecutar una tarea de mantenimiento específica.", ref: "CU-05" },
+  { term: "Proveedor", cat: "actor", def: "Empresa o persona que suministra repuestos e insumos al sistema. Actor externo que da origen a las compras registradas.", ref: "CU-07" },
+
+  // ENTIDADES PRINCIPALES
+  { term: "Equipo", cat: "entidad", def: "Activo físico del sistema (tractor, cosechadora, sembradora, etc.). Identificado por número de equipo, marca, modelo, número de serie y horas de uso acumuladas. Pertenece a un sector y un tipo de equipo.", ref: "EQUIPO" },
+  { term: "Tipo de Equipo", cat: "entidad", def: "Clasificación genérica del equipo (ej: Tractor, Cosechadora). Permite asociar planes de mantenimiento a toda una familia de máquinas.", ref: "TIPO_EQUIPO" },
+  { term: "Sector", cat: "entidad", def: "Área geográfica o funcional del establecimiento donde se ubican los equipos. Facilita la organización y filtrado de la flota.", ref: "SECTOR" },
+  { term: "Solicitud", cat: "entidad", def: "Requerimiento de intervención generado por un operario al detectar una falla o necesidad en un equipo. Tiene prioridad, estado y descripción del problema.", ref: "SOLICITUD" },
+  { term: "Plan de Mantenimiento", cat: "entidad", def: "Conjunto de tareas preventivas predefinidas asociadas a un tipo de equipo, con criterio de frecuencia (horas de uso o período temporal). Base del mantenimiento preventivo.", ref: "PLAN_MANTENIMIENTO" },
+  { term: "Maestro de Tareas", cat: "entidad", def: "Catálogo centralizado de tareas estándar de mantenimiento (ej: cambio de aceite, ajuste de correas). Define categoría, tipo de mantenimiento, frecuencia recomendada y si requiere repuestos o prestador externo.", ref: "MAESTRO_TAREA" },
+  { term: "Detalle Plan Mantenimiento", cat: "entidad", def: "Relación entre un plan de mantenimiento y las tareas del Maestro de Tareas que lo componen, con tiempo estimado y observaciones específicas.", ref: "DETALLE_PLAN_MANTENIMIENTO" },
+  { term: "Tarea de Mantenimiento", cat: "entidad", def: "Orden de trabajo concreta generada a partir de una solicitud o un plan preventivo. Registra equipo, tipo de mantenimiento, fechas, estado, prestador asignado y costo total.", ref: "TAREA_MANTENIMIENTO" },
+  { term: "Detalle de Trabajo", cat: "entidad", def: "Registro granular de la ejecución de una Tarea de Mantenimiento: qué sub-tarea del Maestro se ejecutó, quién la realizó, en qué fechas y a qué costo parcial.", ref: "DETALLE_TRABAJO" },
+  { term: "Detalle Trabajo Repuesto", cat: "entidad", def: "Registro de los repuestos consumidos durante la ejecución de una sub-tarea. Permite trazar el uso de materiales y actualizar el stock automáticamente.", ref: "DETALLE_TRABAJO_REPUESTO" },
+  { term: "Prestador de Servicio", cat: "entidad", def: "Taller o técnico externo registrado en el sistema. Tiene especialidad, datos de contacto, calificación y tipo de prestación asociado.", ref: "PRESTADOR_SERVICIO" },
+  { term: "Tipo de Prestación", cat: "entidad", def: "Clasificación del servicio que ofrece un prestador (ej: Electromecánica, Hidráulica, Neumática). Facilita la búsqueda del prestador adecuado.", ref: "TIPO_PRESTACION" },
+  { term: "Personal", cat: "entidad", def: "Recurso humano interno que ejecuta tareas de mantenimiento. Registra DNI, especialidad y datos de contacto. Se asocia a los detalles de trabajo.", ref: "PERSONAL" },
+  { term: "Repuesto", cat: "entidad", def: "Componente o insumo utilizado en las tareas de mantenimiento (filtros, aceites, correas, etc.). Tiene stock mínimo, stock actual, costo unitario y proveedor asociado.", ref: "REPUESTO" },
+  { term: "Proveedor (entidad)", cat: "entidad", def: "Empresa que suministra repuestos. Almacena nombre, datos de contacto, dirección y marca representada. Se distingue del Prestador de Servicio.", ref: "PROVEEDOR" },
+  { term: "Compra", cat: "entidad", def: "Registro de una adquisición de repuestos a un proveedor. Contiene fecha, costo total y estado. Al completarse, actualiza el stock de los repuestos involucrados.", ref: "COMPRA" },
+  { term: "Detalle de Compra", cat: "entidad", def: "Ítem individual de una compra: qué repuesto se adquirió, en qué cantidad y a qué precio unitario.", ref: "DETALLE_COMPRA" },
+
+  // CONCEPTOS DE NEGOCIO
+  { term: "Mantenimiento Preventivo", cat: "concepto", def: "Estrategia de mantenimiento basada en intervenciones programadas antes de que ocurra la falla, según horas de uso o períodos de tiempo. Maximiza la disponibilidad de la flota.", ref: "CU-04" },
+  { term: "Mantenimiento Correctivo", cat: "concepto", def: "Intervención realizada en respuesta a una falla o avería ya ocurrida. Se origina en una Solicitud de Mantenimiento y busca restablecer el funcionamiento del equipo.", ref: "CU-01, CU-02" },
+  { term: "Criterio de Frecuencia", cat: "concepto", def: "Parámetro que determina cuándo debe ejecutarse una tarea preventiva. Puede ser por horas de uso acumuladas (ej: cada 250 hs) o por período temporal (ej: cada 3 meses).", ref: "PLAN_MANTENIMIENTO" },
+  { term: "Stock Mínimo", cat: "concepto", def: "Cantidad umbral de un repuesto por debajo de la cual el sistema genera una alerta de reposición para evitar faltantes durante las intervenciones.", ref: "REPUESTO" },
+  { term: "Calificación del Prestador", cat: "concepto", def: "Indicador numérico acumulado que refleja el desempeño histórico de un prestador externo en términos de costo, tiempo de respuesta y calidad del trabajo.", ref: "PRESTADOR_SERVICIO" },
+  { term: "KPI (Indicador Clave)", cat: "concepto", def: "Métrica cuantitativa para evaluar el desempeño del sistema de mantenimiento. Ejemplos: Disponibilidad de Flota, Costo de Mantenimiento por Hora de Operación, Tiempo Medio Entre Fallas (MTBF).", ref: "CU-10" },
+  { term: "Disponibilidad de Flota", cat: "concepto", def: "KPI que expresa el porcentaje de tiempo en que los equipos están operativos y disponibles para su uso, en relación al tiempo total del período analizado.", ref: "CU-10" },
+  { term: "Downtime (Tiempo de Parada)", cat: "concepto", def: "Período de inactividad de un equipo debido a una falla o una intervención de mantenimiento. Minimizarlo es uno de los objetivos centrales del sistema.", ref: "" },
+  { term: "Temporada Agrícola", cat: "concepto", def: "Período crítico del ciclo productivo agropecuario (siembra o cosecha) durante el cual la disponibilidad de la maquinaria es estratégica. El sistema permite planificar mantenimientos antes de estos picos.", ref: "" },
+
+  // PROCESOS / FLUJOS
+  { term: "ABM", cat: "proceso", def: "Alta, Baja y Modificación. Operaciones básicas de gestión sobre una entidad del sistema (crear, desactivar, editar registros).", ref: "CU-06, CU-08, CU-09" },
+  { term: "Baja Lógica", cat: "proceso", def: "Técnica de eliminación que marca un registro como inactivo sin borrarlo físicamente de la base de datos, preservando la integridad del historial.", ref: "CU-06, CU-08, CU-09" },
+  { term: "Herencia de Actor", cat: "proceso", def: "Relación de generalización en UML en la que un actor hijo hereda todas las capacidades del actor padre y agrega las propias. En CAMPIX: Operario ──▷ Jefe de Taller ──▷ Administrador.", ref: "Diagrama CU" },
+  { term: "Flujo Principal", cat: "proceso", def: "Secuencia normal y exitosa de pasos que describe cómo se ejecuta un caso de uso. También llamado escenario principal o camino feliz.", ref: "Todos los CU" },
+  { term: "Flujo Alternativo", cat: "proceso", def: "Variante del flujo principal que describe caminos secundarios válidos o situaciones de error recuperables dentro del caso de uso.", ref: "Todos los CU" },
+  { term: "Excepción", cat: "proceso", def: "Situación anormal que interrumpe el flujo del caso de uso y que el sistema debe manejar explícitamente para no perder integridad.", ref: "Todos los CU" },
+  { term: "Precondición", cat: "proceso", def: "Estado del sistema que debe ser verdadero antes de que el caso de uso pueda iniciarse.", ref: "Todos los CU" },
+  { term: "Postcondición", cat: "proceso", def: "Estado del sistema garantizado al finalizar exitosamente un caso de uso.", ref: "Todos los CU" },
+
+  // TÉCNICOS
+  { term: "CMMS", cat: "tecnico", def: "Computerized Maintenance Management System. Sistema informatizado de gestión del mantenimiento. CAMPIX es un CMMS especializado en el sector agropecuario.", ref: "" },
+  { term: "RUP", cat: "tecnico", def: "Rational Unified Process. Metodología iterativa de desarrollo de software que organiza el trabajo en fases (Inicio, Elaboración, Construcción, Transición) y flujos de trabajo disciplinados.", ref: "" },
+  { term: "Caso de Uso", cat: "tecnico", def: "Descripción de una secuencia de acciones que el sistema realiza para producir un resultado de valor para un actor. Técnica de captura de requisitos funcionales en RUP/UML.", ref: "" },
+  { term: "DER", cat: "tecnico", def: "Diagrama Entidad-Relación. Representación gráfica del modelo de datos del sistema, mostrando entidades, sus atributos y las relaciones entre ellas.", ref: "" },
+  { term: "Actor", cat: "tecnico", def: "Entidad externa (persona, sistema o dispositivo) que interactúa con el sistema participando en casos de uso. Puede ser actor primario (inicia el CU) o secundario (es notificado o provee datos).", ref: "" },
+  { term: "Generalización de Actor", cat: "tecnico", def: "Relación UML representada con una línea sólida y triángulo hueco (──▷) que indica que el actor hijo puede participar en todos los casos de uso del actor padre más los propios.", ref: "Diagrama CU" },
+];
+
+const pillClass = { actor: 'pill-actor', entidad: 'pill-entidad', concepto: 'pill-concepto', proceso: 'pill-proceso', tecnico: 'pill-tecnico' };
+const pillLabel = { actor: 'Actor', entidad: 'Entidad', concepto: 'Concepto', proceso: 'Proceso', tecnico: 'Técnico' };
+const cats = ['todos', 'actor', 'entidad', 'concepto', 'proceso', 'tecnico'];
+
+const gc = document.getElementById('gloss-container');
+gc.innerHTML = `
+  <div class="gloss-search-wrap">
+    <span class="gloss-search-icon">🔍</span>
+    <input class="gloss-search" id="gloss-search" type="text" placeholder="Buscar término...">
+  </div>
+  <div class="gloss-cats" id="gloss-cats"></div>
+  <div class="gloss-grid" id="gloss-grid"></div>
+`;
+
+const catsEl = document.getElementById('gloss-cats');
+let activeCat = 'todos';
+cats.forEach(c => {
+  const btn = document.createElement('button');
+  btn.className = 'gloss-cat-btn' + (c === 'todos' ? ' active' : '');
+  btn.textContent = c === 'todos' ? 'Todos' : pillLabel[c];
+  btn.onclick = () => {
+    activeCat = c;
+    document.querySelectorAll('.gloss-cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderGloss();
+  };
+  catsEl.appendChild(btn);
+});
+
+function renderGloss() {
+  const q = document.getElementById('gloss-search').value.toLowerCase();
+  const filtered = glosario.filter(g => {
+    const matchCat = activeCat === 'todos' || g.cat === activeCat;
+    const matchQ = !q || g.term.toLowerCase().includes(q) || g.def.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+  const grid = document.getElementById('gloss-grid');
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="gloss-empty">No se encontraron términos para los filtros aplicados.</div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(g => `
+    <div class="gloss-card">
+      <div class="gloss-term">
+        ${g.term}
+        <span class="gloss-cat-pill ${pillClass[g.cat]}">${pillLabel[g.cat]}</span>
+      </div>
+      <div class="gloss-def">${g.def}</div>
+      ${g.ref ? `<div class="gloss-ref">→ ${g.ref}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+document.getElementById('gloss-search').addEventListener('input', renderGloss);
+renderGloss();
 </script>
 </body>
 </html>
